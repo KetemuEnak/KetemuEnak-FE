@@ -1,0 +1,63 @@
+.dropdown-question{
+    width: 668px;
+    height: 56px;
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: start;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    color: #000000;
+    margin-left: 0px;
+}
+.dropdown-answer{
+    margin-left: 6px;
+    font-weight: 300;
+    font-size: 14px;
+    width: 600px;
+    text-align: justify;
+}
+
+@media screen and (max-width:1000px){
+    .dropdown-question{
+        width: 328px;
+        margin-left: 10px;
+    }
+    .text-border-question{
+        width: 8px;
+    }
+    .dropdown-answer{
+        width: 300px;
+        margin-left: 16px !important;
+    }
+    hr{
+        margin-left: 20px;
+        width: 300px;
+    }
+    .dropdown-question{
+      font-size: 14px
+  }
+}
+@keyframes inAnimation {
+    0% {
+      opacity: 0;
+      visibility: hidden;
+    }
+    100% {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+  
+  @keyframes outAnimation {
+    0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        visibility: hidden;
+      }
+  }

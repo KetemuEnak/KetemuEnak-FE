@@ -1,0 +1,116 @@
+{
+  "users": {
+    "seller": [
+      {
+        "id": 1,
+        "profile_image": "/src/components/assets/iconKE.png",
+        "store_name": "FashionFusion Boutique",
+        "address": "789 Style Street, Trendy Town, Country",
+        "email": "info@fashionfusionboutique.com",
+        "contact_number": "+1 (555) 111-2233",
+        "social_media": "https://www.instagram.com/fashionfusionboutique",
+        "banner": "https://i.pinimg.com/564x/4e/2b/8d/4e2b8d004e4f64190d9ca2c94d724147.jpg",
+        "description": "FashionFusion Boutique offers the latest trends in clothing, accessories, and footwear, catering to fashion-forward individuals."
+      },
+      {
+        "id": 2,
+        "store_name": "Gourmet Grocers",
+        "profile_image": "/src/components/assets/iconKE.png",
+        "address": "456 Culinary Avenue, Foodie City, Country",
+        "email": "info@gourmetgrocers.com",
+        "contact_number": "+1 (555) 444-5566",
+        "social_media": "https://www.facebook.com/gourmetgrocers",
+        "banner": "https://i.pinimg.com/564x/5c/ba/0c/5cba0c38aedc0034f96d1651ee25d8cc.jpg",
+        "description": "Gourmet Grocers provides a wide range of high-quality ingredients, gourmet foods, and specialty products for home chefs and food enthusiasts."
+      }
+    ],
+    "eo": [
+      {
+        "id": 1,
+        "company_name": "Tech Solutions Ltd.",
+        "profile_image": "/src/components/assets/iconKE.png",
+        "address": "123 Main Street, Cityville, Country",
+        "email": "info@techsolutions.com",
+        "contact_number": "+1 (555) 123-4567",
+        "website_link": "https://www.techsolutions.com",
+        "description": "Tech Solutions Ltd. is a leading technology company providing innovative IT solutions for businesses worldwide."
+      },
+      {
+        "id": 2,
+        "company_name": "Global Foods Inc.",
+        "profile_image": "/src/components/assets/iconKE.png",
+        "address": "456 Food Avenue, Culinary City, Country",
+        "email": "info@globalfoodsinc.com",
+        "contact_number": "+1 (555) 987-6543",
+        "website_link": "https://www.globalfoodsinc.com",
+        "description": "Global Foods Inc. specializes in sourcing and distributing high-quality food products to restaurants and retailers globally."
+      },
+      {
+        "id": 3,
+        "company_name": "Creative Designs Agency",
+        "address": "789 Art Street, Designville, Country",
+        "email": "info@creativedesignsagency.com",
+        "contact_number": "+1 (555) 567-8901",
+        "website_link": "https://www.creativedesignsagency.com",
+        "description": "Creative Designs Agency offers top-notch graphic and web design services, transforming ideas into visually appealing solutions."
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": 1,
+      "event_name": "Traditional Food Festival",
+      "event_image": "/src/components/assets/image.png",
+      "city": "Jakarta",
+      "location": "https://maps.example.com/Jakarta-town-square",
+      "date": "April 5-7, 2023",
+      "description": "An Indonesian traditional food festival featuring a variety of dishes from across the archipelago.",
+      "quota": "Unlimited",
+      "ticket_price": "Free of charge"
+    },
+    {
+      "id": 2,
+      "event_name": "Archipelago Culinary Feast",
+      "event_image": "/src/components/assets/image.png",
+      "city": "Depok",
+      "location": "https://maps.example.com/Depok-culinary-garden",
+      "date": "May 12-14, 2023",
+      "description": "Exhibition and sale of authentic regional Indonesian cuisine, accompanied by cultural performances.",
+      "quota": "Unlimited",
+      "ticket_price": "IDR 50,000"
+    },
+    {
+      "id": 3,
+      "event_name": "Beachfront Evening Culinary Experience",
+      "event_image": "/src/components/assets/image.png",
+      "city": "Bekasi",
+      "location": "https://maps.example.com/jimbaran-beach-Bekasi",
+      "date": "Every Friday and Saturday Night",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus dicta doloribus perferendis dolorum, nihil repellendus vitae fugit eos ea corrupti ullam quos ipsa illo? Distinctio aspernatur recusandaeamet doloremque beatae dolore architecto veritatis, molestias reprehenderit nostrum dolor quos laborum, minima, illo voluptatibus perspiciatis neque ad. Illo quod tenetur ullam eum?",
+      "quota": "Unlimited",
+      "ticket_price": "Varies based on order"
+    },
+    {
+      "id": 4,
+      "event_name": "Food Truck Carnival",
+      "event_image": "/src/components/assets/image.png",
+      "city": "Jakarta",
+      "location": "https://maps.example.com/gelora-bung-karno-jakarta",
+      "date": "July 20-22, 2023",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus dicta doloribus perferendis dolorum, nihil repellendus vitae fugit eos ea corrupti ullam quos ipsa illo? Distinctio aspernatur recusandaeamet doloremque beatae dolore architecto veritatis, molestias reprehenderit nostrum dolor quos laborum, minima, illo voluptatibus perspiciatis neque ad. Illo quod tenetur ullam eum?",
+      "quota": "Unlimited",
+      "ticket_price": "Free of charge"
+    },
+    {
+      "id": 5,
+      "event_name": "Indonesian Culinary Showcase",
+      "event_image": "/src/components/assets/image.png",
+      "city": "Bogor",
+      "location": "https://maps.example.com/karebosi-field-Bogor",
+      "date": "November 10-12, 2023",
+      "description": "Exhibition and sale of traditional regional Indonesian cuisine, accompanied by art and cultural performances.",
+      "quota": "Unlimited",
+      "ticket_price": "IDR 25,000"
+    }
+  ]
+}

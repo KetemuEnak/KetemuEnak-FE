@@ -1,0 +1,123 @@
+.container-promosi{
+    margin-top: 120px;
+    margin-bottom: 100px;
+    width: 1440px;
+    margin-left: auto !important; 
+    margin-right: auto !important; 
+    float: none !important; 
+}
+.image-promosi{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right:50px;
+}
+.image-promosi-eo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right:50px;
+}
+
+.container-our-service{
+    width: 550px;
+    height: 376px;
+}
+  
+.eo{
+    display: flex;
+    justify-content: flex-end !important;
+}
+.text-our-service{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.eo-services{
+    display: flex;
+    justify-content: flex-end !important;
+    align-items: center !important;
+}
+.text-our-service h2{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+}
+.text-our-service h6{
+    font-size: 14px;
+    line-height: 20px;
+}
+.top-services{
+    margin-top: 16px;
+}
+
+.eachServices{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.container-promosi-eo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px !important;
+    /* gap: 100px */
+}
+  
+.eachServices img{
+    height: 24px;
+}
+
+@media screen and (max-width:1100px){
+    .image-promosi img{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 24px;
+        width: 252px;
+        height: 228px;
+    }
+    .image-promosi-eo img{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 24px;
+        width: 252px;
+        height: 228px;
+    }
+    .container-promosi{
+        width: 100%;
+        margin-top: 60px;
+    }
+    .image-promosi{
+        display: flex;
+        justify-content: center;
+    }
+    .image-promosi-eo{
+        display: flex;
+        justify-content: center;
+    }
+    .eo{
+        display: flex;
+        justify-content: center !important;
+        align-items: center;
+    }
+    .text-our-service{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .container-promosi-eo{
+        margin-top: 200px !important;
+        margin-bottom: 150px;
+    }
+    .cari-event-button-promotion{
+        float: left !important;
+    }
+
+}
+@media screen and (max-width:365px){
+    .setsize{
+        margin-top: 200px;
+    }
+}

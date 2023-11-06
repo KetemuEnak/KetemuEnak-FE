@@ -1,0 +1,120 @@
+.find-event-button{
+    font-weight: bold;
+    margin-left: 10px;
+    transition: 0.4s;
+}
+.find-event-button:hover{
+    color: white !important;
+}
+.navbar{
+    /* width: 1440px; */
+    margin: 0 auto !important; 
+    float: none !important; 
+    /* padding-left: 136px; */
+    padding-right: 370px;
+    padding-left: 370px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    transition: all 0.5s ease-in-out;
+}
+
+.navbar-nav{
+    display: flex;
+    flex-direction: row;
+}
+
+/* @supports (-webkit-backdrop-filter: blur(30px) saturate(160%) contrast(45%) brightness(140%)) or
+  (backdrop-filter: blur(30px) saturate(160%) contrast(45%) brightness(140%)) {
+  .navbar-b.navbar-reduce {
+    transition: all 0.5s ease-in-out;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px) saturate(160%) contrast(45%) brightness(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%) contrast(45%) brightness(140%);
+  }
+} */
+
+.navbar-judul:hover{
+    background-color: #dcd9c942;
+    color: white !important;
+}
+.nav-item{
+    transition: 0.5s;
+}
+.nav-item:hover{
+    background-color: #dcd9c942;
+    border-radius: 10px;
+}
+.navbar-brand{
+    transition: 0.4s;
+}
+
+.navbarItem{
+    display: flex;
+    justify-content: flex-end;
+}
+.container-sidebar{
+    visibility: hidden;
+}
+
+@media screen and (max-width:1000px){
+    .navbar{
+        padding-top: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+        width: 100%;
+    } 
+    .wrapper-sidebar ul{
+        background-color: #f1f1f1;
+        width: 180px;
+        position: fixed;
+        overflow: auto;
+        right: 0;
+        top: 0;
+        background: #FFFFFF;    
+        box-shadow:0 0 0 10000px rgba(0,0,0,.50);
+    }
+    .button-close{
+        float: right;
+        width: auto;
+    }
+    .first-to-button{
+        display: inline-block;
+    }
+    .fa-times{
+        height: 100px;
+    }
+    .navbar-nav{
+        padding-left: 16px;
+        padding-top: 20px;
+    }
+    .title-sidebar{
+        font-family: 'Arial';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 20px;
+        color: #000000 !important;
+    }
+    .title-first{
+        display: inline-block;
+    }
+    .title-first img{
+        float: right;
+        padding-right: 30px;
+        margin-top: 5px;
+    }
+    .sidebar-funct a{
+        font-family: 'Arial';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        color: #000000 !important;
+    }
+    .container-sidebar{
+        visibility:visible;
+    }
+
+}
