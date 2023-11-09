@@ -1,0 +1,209 @@
+.title-rent{
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 150%;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.slick-list{
+    padding-bottom: 25px !important;
+}
+
+
+.card{
+    border: none;
+    width: auto;
+}
+.desc-rent{
+    font-family: 'Arial';
+    font-style: normal;
+    width: 468px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.container-card-rent-testimonial{
+    background-color: #0D28A6;
+    margin: auto;
+    border-radius: 13px;
+    margin-top: 156px;
+    width: 1168px;
+} 
+.container-card-testimonial{
+    width: auto;
+}
+.card-title{
+    font-size: 14px;
+}
+.container-title-testimonial{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.card-testimonial img{
+    height: 80px;
+    width: 80px;
+    margin-left: 56px;
+    margin-right: 46px;
+}
+.card-testimonial{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.card-body h6{
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.card-body{
+    margin-top: 69px;
+    margin-bottom: 69px;
+    margin-right: 31px;
+    height: 140px;
+}
+
+.card-title{
+    width: auto;
+    text-align: justify;
+    height: auto;
+}
+
+.card-testimonial{
+    background: rgba(222, 217, 207, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    margin-left: 10px;
+    margin-right: 10px;
+    height:fit-content !important;
+}
+.card-text{
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+.checked {
+    color: rgb(252,199,52);
+}
+
+/* .slick-prev:before {
+    color: #788779 !important;
+    font-size: 32px !important;
+    position: absolute;
+    top: 180px;
+    left: 900px;
+}
+.slick-next:before {
+    color: #5CB85F !important;
+    font-size: 32px !important;
+    position: absolute;
+    top: 180px;
+    right: 960px;
+} */
+.container-title-testimonial{
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+.container-card-rent-testimonial{
+    margin-top: 156px;
+}
+
+@media screen and (max-width:1000px){
+    .container-title-testimonial{
+        margin-top: 30px;
+    }
+    .container-title-testimonial h1{
+        font-size: 24px;
+    }
+    .container-testimonial-main{
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .container-card-testimonial{
+        width: 100%;
+    }
+    .container-rent-search-car{
+        width: 100%;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .desc-rent{
+        width: 212px;
+    }
+    .title-rent{
+        font-size: 24px;
+        width: 212px;
+    }
+    .desc-rent{
+        font-size: 14px;
+    }
+    .container-card-rent-testimonial{
+        width: 100%;
+    } 
+    .card-title{
+        width: 264px;
+        text-align: justify;
+    }
+    .card-testimonial{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .card-testimonial img{ 
+        margin-top: 40px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .card-body{
+        margin: auto;
+        margin-bottom: 40px;
+        height: 100%;
+    }
+    .card-stars{
+        text-align: center;
+        margin-bottom:24px ;
+    }
+    .slick-prev:before {
+
+        top: 220px;
+        left: 150px;
+    }
+    .slick-next:before {
+        top: 220px;
+        right: 150px;
+    }
+    .container-card-rent-testimonial{
+        margin-top: 88px;
+    }
+    .card{
+        border: none;
+    }
+    .card-testimonial{
+        height: 500px !important;
+    }
+}
+
+
