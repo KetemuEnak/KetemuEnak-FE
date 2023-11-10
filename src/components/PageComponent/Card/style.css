@@ -1,0 +1,10 @@
+.card-testimonial:hover{
+    margin-top: -10px;
+}
+
+.card-testimonial{
+    transition: 0.4s;
+}
+.slick-list{
+    padding-top: 25px;
+}

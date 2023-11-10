@@ -1,0 +1,97 @@
+/* STYLE UNTUK PAGE FORM SIGN UP */
+.form-label {
+  font-family: Arial;
+  font-style: normal;
+  font-size: 14px;
+}
+.form-sign-up {
+  width: 370px;
+  height: 67.18px;
+}
+.button-log {
+  width: 370px;
+  border-radius: 2px !important;
+  background-color: #BCA37F !important;
+  border-color: #BCA37F !important;
+  margin-top: 15px !important;
+  border-radius: 5px !important;
+}
+.box-sign-up {
+  width: 100px;
+  margin-bottom: 2em;
+  background: #cfd4ed;
+}
+
+.form-col-1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.form-col-2 {
+  background: #937d5fab !important;
+  padding: 0;
+}
+.wrap-col-2 {
+  display: flex;
+  flex-direction: column;
+}
+.landing-img {
+  width: 430px;
+}
+
+.overlay-section-login-seller {
+  background-image: url('../../../image/seller_signup.jpg');
+  background-size: cover;
+  background-position: center;
+  /* background-position:center; */
+  color: white;
+  /* padding: 100px 0; */
+  position: relative;
+  height: 100%;
+  width: 100%;
+  filter: brightness(100%);
+}
+
+.new{
+  z-index: 1;
+  position: absolute;
+  color: rgb(255, 252, 252);
+  width: 500px;
+  /* margin-top: -350px; */
+}
+
+.wrapper{
+  width: 100%;
+  height: 100%;
+  position:relative;
+  display:grid;
+  justify-items:center;
+  align-items:center;
+}
+/* .bg-overlay-image{
+    background: rgba(0, 0, 0, 0.5);
+} */
+
+
+.overlay-section-login-seller::after {
+  content: "";
+  background: rgba(0, 0, 0, 0.7) !important;
+  /* filter: blur(10px); */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-size: cover;
+}
+
+@media screen and (max-width: 1000px) {
+  .form-col-1 {
+    width: 100% !important;
+  }
+  .form-col-2 {
+    display: none !important;
+  }
+}

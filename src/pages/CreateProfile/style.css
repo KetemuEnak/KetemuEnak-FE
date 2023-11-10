@@ -1,0 +1,266 @@
+.my-app {
+    background-color: #fbfbfd;
+    color: #3e3f42;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  
+  .my-app_header {
+    padding-top: 1.875rem;
+    padding-bottom: 1.875rem;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+  }
+  
+  .inputEmailProfile{
+    border-radius: 5px !important;
+    border-color: #dddedfb7 !important;
+  }
+  
+  .my-app_header-inner {
+    display: flex;
+  }
+  
+  .my-app_header-text {
+    flex: 1;
+  }
+  
+  .my-app_header-title {
+    margin: 0 0 .625rem;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 32px;
+  }
+  
+  .my-action-buttons {
+    display: flex;
+  }
+  
+  .my-action-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: none;
+    background: none;
+    line-height: 1;
+  }
+  
+  .my-action-button:hover,
+  .my-action-button:active,
+  .my-action-button:focus {
+    outline: none;
+  }
+  
+  .my-action-button_icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    margin-bottom: .875rem;
+    border: 1px solid #E2E5ED;
+    border-radius: 54px;
+    color: #BCA37F;
+    object-fit: none;
+  }
+  
+  .my-app_body {
+    padding-top: 1.875rem;
+    padding-bottom: 1.875rem;
+  }
+  
+  /* My card */
+  .my-card:not(:last-child) {
+    margin-bottom: 1.875rem;
+  }
+  
+  .my-card_header {
+    display: flex;
+    padding: 1.5rem 1.875rem;
+    border-width: 0 0 1px;
+    /* border-bottom: 1px solid #eaedf3; */
+    border-color: rgba(0, 0, 0, .125);
+    background: none;
+  }
+  .form-profile-all{
+
+    padding: 1.5rem 1.875rem;
+    border-width: 0 0 1px;
+    /* border-bottom: 1px solid #eaedf3; */
+    border-color: rgba(0, 0, 0, .125);
+    background: none;
+  }
+  
+  .my-card_header-title {
+    flex: 1;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  
+  .my-card_header-link {
+    color: #9ea0a5;
+    /* 14px is default font size */
+  }
+  
+  .my-card_header-link:hover,
+  .my-card_header-link:focus {
+    color: #9ea0a5;
+  }
+  
+  .my-card_body {
+    padding: 1.5rem 1.875rem;
+  }
+  
+  /* My list */
+  .my-list-item {
+    display: flex;
+    padding: 1rem 1.875rem;
+  }
+  
+  .my-list-item_date,
+  .my-list-item_text,
+  .my-list-item_fee {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .my-list-item_date {
+    flex-direction: column-reverse;
+    margin-right: 25px;
+    color: #9ea0a5;
+  }
+  
+  .my-list-item_date-day {
+    font-size: 18px;
+    line-height: 22px;
+  }
+  
+  .my-list-item_date-month {
+    margin-bottom: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 14px;
+    text-transform: uppercase;
+  }
+  
+  .my-list-item_text {
+    flex: 1;
+  }
+  
+  .my-list-item_text-title {
+    margin: 0 0 7px;
+    /* 14px is default font size */
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .my-list-item_text-description {
+    margin: 0;
+    color: #9ea0a5;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  
+  .my-list-item_fee {
+    text-align: right;
+  }
+  
+  .my-list-item_fee-delta {
+    color: #3BAD4B;
+    /* 14px is default font size */
+    font-weight: 500;
+  }
+  
+  .my-list-item_fee-currency {
+    color: #9EA0A5;
+    font-size: 12px;
+  }
+  
+
+  .my-list-inline li:not(:last-child) {
+    margin-bottom: .5rem;
+  }
+  
+
+  @media (min-width: 992px) {
+    .my-dl dt {
+      float: left;
+      color: #9EA0A5;
+      font-weight: 400;
+    }
+    
+    .my-dl dd {
+      text-align: right;
+    }
+  }
+  
+  /* My typography */
+  .my-text-headline {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 400;
+  }
+  
+  .my-text-overline {
+    margin-bottom: .75rem;
+    color: #9EA0A5;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  
+  /* Divider */
+  .my-divider {
+    margin: 1.25rem 0;
+  }
+  
+  /* Input */
+  .my-input {
+    max-width: 186px;
+  }
+  
+  .my-select {
+    border-color: #D8DCE6;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .08);
+    font-size: 14px;
+  }
+  
+  /* Bootstrap custom fixes */
+  @media (max-width: 1199px) {
+    .container {
+      max-width: 100%;
+    }
+  }
+  
+  .my-alert {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.875rem;
+    padding-top: .937rem;
+    padding-bottom: .937rem;
+    border: none;
+    box-shadow: none;
+  }
+  
+  .my-alert.alert-info {
+    background-color: #BCA37F;
+    color: #fff;
+  }
+  
+  .my-alert_icon {
+    margin-right: 1.25rem;
+  }
+  
+  /* List icon */
+  .list_icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 40px;
+    border: 1px solid #E2E5ED;
+    border-radius: .25rem;
+  }
+  

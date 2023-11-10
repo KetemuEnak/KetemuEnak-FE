@@ -1,0 +1,131 @@
+
+.container-whyus{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  
+}
+.isi-card:hover{
+  margin-top: -15px;
+  
+}
+.isi-card{
+  transition: 0.3s;
+}
+
+.card-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  /* transition: 0.5s; */
+}
+.isi-card{
+  border: 1px solid #D0D0D0;
+  border-radius: 8px;
+  padding: 24px;
+  width: 268px;
+  height: 196px;
+  float: left;
+}
+
+.card-select-user{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  transition: 0.5s;
+  /* gap: 10px; */
+}
+
+.card-select-user button{
+  border: none;
+  background-color: white;
+  border-bottom: 3px solid black;
+  width: 300px;
+  transition: ease 0.5s;
+  padding: 10px;
+}
+
+/* .card-select-user button:hover{
+  background-color: rgba(140, 139, 139, 0.147);
+} */
+
+@media screen and (max-width:1000px){
+  .user-tutorial-container{
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+    .card-wrapper{
+      column-gap: 20px;
+      row-gap: 0px;
+    }
+    .container-card{
+        width: 100%;
+        padding-left: 16px;
+        padding-right: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .isi-card{
+        width: 328px;
+        height: 196px;
+
+    }
+    .text-whyus{
+        text-align: center;
+    }
+    .text-whyus h1{
+      font-size: 24px;
+    }
+    .text-whyus h6{
+      width: 300px;
+      text-align: center;
+      align-items: center;
+      margin: 0 auto;
+    }
+    .isi-card h5{
+      font-size: 16px;
+    }
+    .isi-card h6{
+      font-size: 14px;
+    }
+    .card-select-user button{
+      border: none;
+      background-color: white;
+      border-bottom: 3px solid black;
+      width: 150px;
+      transition: ease 0.5s;
+      padding: 10px;
+    }
+    .container-whyus{
+      margin-top: 200px;
+    }
+    
+  }
+
+  @keyframes inAnimation {
+    0% {
+      opacity: 0;
+      visibility: hidden;
+    }
+    100% {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+  
+  @keyframes outAnimationEo {
+    0% {
+      opacity: 0;
+      visibility: hidden;
+    }
+    100% {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
