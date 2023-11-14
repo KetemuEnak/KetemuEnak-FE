@@ -23,13 +23,13 @@ function App() {
         <Route path="/signin-eo" element={<FormSignInEo />} />
         <Route path="/signup-eo" element={<FormSignUpEo />} />
         <Route path="/signup-seller" element={<FormSignUp />} />
-        <Route path="/event" element={<UpcomingEvent />} />
-        <Route path="/seller" element={<PotentialSeller />} />
+        <Route path="/seller" element={<UpcomingEvent />} />
+        <Route path="/event" element={<PotentialSeller />} />
         <Route path="/list-event" element={<HomePage />} />
         <Route path="/detail/:eventId" element={<DetailEvent />} />
         <Route path="/profile/:profileId" element={<ProfilePage />} />
         <Route path="/create-event" element={<CreateEvent />} />
-        <Route path="/create-seller" element={<ProfileForm />} />
+        <Route path="/create-profile" element={<ProfileForm />} />
       </Routes>
     </BrowserRouter>
   );

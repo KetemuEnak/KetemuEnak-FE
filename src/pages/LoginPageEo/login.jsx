@@ -5,8 +5,9 @@ import Button from "react-bootstrap/Button";
 import './style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import { useState } from "react";
-
+import useFormInput from "../../hooks/useFormInput";
+import { useEffect, useState } from "react";
+import usePostApi from "../../hooks/usePostApi";
 
 const FormSignInEo = () => {
   const navigate = useNavigate();
@@ -15,16 +16,63 @@ const FormSignInEo = () => {
   const [isFocused, setIsFocused] = useState(false)
   const [isFocusedEmail, setIsFocusedEmail] = useState(false)
   const [isSubmitWrong, setIsSubmitWrong] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const email = useFormInput('');
+  const password = useFormInput('');
+
+  const apiUrlBase = "https://ketemuenak.fly.dev"
+  const apiUrl = `${apiUrlBase}/auth/login`;
+  const { data, loading, error, request } = usePostApi(apiUrl);
+
+  useEffect(()=>{
+    const role = localStorage.getItem("role");
+    if (localStorage.getItem('token') !== null && role == "eo"){
+      navigate('/event');
+    }
+  },[])
   
-  const handleButtonRegister = (e) => {
+  const handleButtonRegister = async(e) => {
+    e.preventDefault();
+
     if(isPasswordDone==true && isEmailDone===true){
-      navigate("/event");
+      const postData = {
+        email: email.value,
+        password: password.value,
+      };
+      try {
+        const { response, data: responseData, error: requestError } = await request(
+          apiUrl,
+          'POST',
+          postData
+        );
+        if (response && response.status === 200) {
+          const token = responseData.token;
+          const id = responseData.user.id
+          if (token) {
+            localStorage.setItem('role','eo')
+            localStorage.setItem('token', `${token}`)
+            localStorage.setItem('id', `${id}`)
+            navigate('/event');
+          } else {
+            console.log('Received non-200 status code:', response ? response.status : 'No response');
+          }
+        } else{
+          setErrorMessage('Email or password is incorrect. Please try again.');
+        }
+        if (requestError) {
+          console.error('Error:', requestError);
+        }
+      } catch (error) {
+        console.error('Unhandled error:', error);
+      }
     }
     else{
       setIsSubmitWrong(true)
     }
-    e.preventDefault();
+
   };
+
   const handlePassword = (e) => {
     var value = e.target.value
     if(value.length >= 8 && /[^\w\s]/.test(value)){
@@ -74,12 +122,15 @@ const FormSignInEo = () => {
                 <Form.Label>Email address<span style={{color:"red"}}>*</span></Form.Label>
                 <Form.Control
                   required
+                  {...email.value}
                   className={`inputLogin ${isEmailDone ? 'focus:border-blue-500 focus:shadow-blue-500 focus:outline-none ' : 'focus:outline-none focus:border-red-500 focus:shadow-red-500'}`}
-
                   name="email"
                   type="email"
                   placeholder="Enter email"
-                  onChange={handleEmail}
+                  onChange={(e) => {
+                    email.onChange(e);
+                    handleEmail(e);
+                  }}
                   onFocus={() => setIsFocusedEmail(true)}
                   onBlur={() => setIsFocusedEmail(false)}
                   style={
@@ -98,12 +149,16 @@ const FormSignInEo = () => {
               <Form.Group controlId="formBasicPassword">
                 <Form.Label>Password<span style={{color:"red"}}>*</span></Form.Label>
                 <Form.Control
+                  {...password.value}
                   required
                   className={`inputLogin ${isPasswordDone ? 'focus:border-blue-500 focus:shadow-blue-500 focus:outline-none ' : 'focus:outline-none focus:border-red-500 focus:shadow-red-500'}`}
                   name="password"
                   type="password"
                   placeholder="Password"
-                  onChange={handlePassword}
+                  onChange={(e) => {
+                    password.onChange(e);
+                    handlePassword(e);
+                  }}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
                   style={
@@ -120,8 +175,16 @@ const FormSignInEo = () => {
                   Make sure the password is at least 8 characters and contains at least 1 symbol.
                     </span>
                 </Form.Text>) : null}
-                       
+
+                {errorMessage ? (   <Form.Text className="text-muted">
+                  <span  className="text-red-500">
+                  {errorMessage}
+                    </span>
+                </Form.Text>) : null}
+
+
               </Form.Group>
+
 
               <Button
                 variant="primary"
@@ -134,18 +197,6 @@ const FormSignInEo = () => {
 
               <p style={{ marginTop: ".5em" }}>
                 Don’t have an account, Signup as
-                <Link
-                  to="/signup-seller"
-                  style={{
-                    textDecoration: "none",
-                    color: "black",
-                    fontWeight: "bold",
-                    fontStyle: "",
-                  }}
-                >
-                  {" "}
-                  <u>Seller</u> or
-                </Link>
                 <Link
                   to="/signup-eo"
                   style={{

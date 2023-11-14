@@ -2,9 +2,6 @@ import { Banner, Button } from "flowbite-react";
 import { CustomTheme } from "../../themes/theme";
 
 const ProfileAlert = () => {
-  const handleProfile=()=>{
-    localStorage.setItem('user', JSON.stringify("seller"));
-  }
   return (
     <Banner>
       <div className="flex w-full flex-col justify-between rounded-lg border border-gray-100 bg-white p-4 shadow-sm dark:border-gray-600 dark:bg-gray-700 md:flex-row lg:max-w-7xl">
@@ -22,10 +19,9 @@ const ProfileAlert = () => {
         </div>
         <div className="flex flex-shrink-0 items-center">
           <Button
-            href="/create-seller"
+            href="/create-profile"
             size="sm"
             theme={CustomTheme.button}
-            onClick={handleProfile}
             color={"primary"}>
             Lengkapi Profile
           </Button>
