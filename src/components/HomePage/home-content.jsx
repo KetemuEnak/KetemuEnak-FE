@@ -41,7 +41,7 @@ function HomeContent() {
 
   return (
     <div className="my-14">
-      <NavbarAll/>
+      <NavbarAll />
       <div className="flex flex-col items-center mx-4 md:mx-14 lg:mx-auto lg:py-0 mb-10 mt-5">
         <img className="max-h-[170px] md:max-h-[250px] xl:max-h-[350px] w-full md:w-screen xl:w-[1100px] rounded-3xl" src={Banner} alt="logo" />
       </div>
@@ -83,14 +83,14 @@ function HomeContent() {
                 </div>
               </div>
             </li>
-            <div className="overflow-hidden hover:overflow-y-visible max-h-[1300px]">
+            <div className="overflow-auto hover:overflow-y-visible max-h-[1300px]">
               {filteredEvents.length > 0 ? (
                 filteredEvents.map((event, index) => (
                   <li key={index}>
                     <div className="py-3 sm:py-6 border-b-2 border-b-black">
                       <div className="md:flex items-center space-x-4">
                         <div className="flex-shrink-0">
-                          <img className="sm:ml-4 w-32 h-32 md:w-52 md:h-52 rounded-md" src={EventImage} alt="Image Event" />
+                          <img className="sm:ml-4 w-32 h-32 md:w-52 md:h-52 rounded-md object-cover" src={event.event_image} alt="Image Event" />
                         </div>
                         <div className="min-w-0 text-left">
                           <div className="flex flex-col md:flex-row justify-between xl:mr-14 xl:w-[800px]">
