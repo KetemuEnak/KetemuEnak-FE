@@ -4,9 +4,7 @@ import HomeContent from "../../components/HomePage/home-content";
 function HomePage() {
   return (
     <>
-      {/* <Header></Header> */}
       <HomeContent></HomeContent>
-      {/* <Footer></Footer> */}
     </>
   );
 }

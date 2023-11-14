@@ -23,7 +23,7 @@ function DetailContent() {
 
   return (
     <div className="my-14 px-4 sm:px-6 lg:px-14">
-      <NavbarAll/>
+      <NavbarAll />
       <div className="mx-auto max-w-screen-xl lg:py-3 mt-5">
         <div className="md:flex md:justify-center">
           <ul className="max-w-[900px] pr-4 divide-y divide-black dark:divide-gray-700">
@@ -33,7 +33,7 @@ function DetailContent() {
             <div className="py-3 min max-h-[1300px]">
               <div className=" items-center space-x-4">
                 <div className="bg-[#EAD7BB] flex flex-col items-center mx-4 sm:mx-6 min-w-0 md:min-w-[850px] md:mx-auto md:mb-6 lg:py-0 mb-10 md:h-[300px]">
-                  <img className="lg:w-[500px] md:w-[300px] h-full py-3 px-4" src={event.event_image || EventImage} alt="logo" />
+                  <img className="h-full py-3 px-4" src={event.event_image || EventImage} alt="logo" />
                 </div>
                 <div className="min-w-0 text-start">
                   <table className=" table-auto ">
