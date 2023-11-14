@@ -26,7 +26,7 @@ function App() {
         <Route path="/event" element={<UpcomingEvent />} />
         <Route path="/seller" element={<PotentialSeller />} />
         <Route path="/list-event" element={<HomePage />} />
-        <Route path="/detail/:eventId" element={<DetailEvent />} />
+        <Route path="/events/:eventId" element={<DetailEvent />} />
         <Route path="/profile/:profileId" element={<ProfilePage />} />
         <Route path="/create-event" element={<CreateEvent />} />
         <Route path="/create-seller" element={<ProfileForm />} />
