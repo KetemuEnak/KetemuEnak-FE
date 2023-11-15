@@ -37,9 +37,13 @@ const ModalDetailEvent = ({
             <Tooltip content="Lokasi" placement="bottom">
               <div className="flex gap-x-1 items-center content-center">
                 <IoLocationOutline />
-                <p className="font-normal text-gray-700">
-                  {location} {city}
-                </p>
+                <a
+                  href={location}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-normal text-gray-700">
+                  {city}
+                </a>
               </div>
             </Tooltip>
           </div>
