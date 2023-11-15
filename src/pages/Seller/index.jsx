@@ -4,6 +4,8 @@ import FooterComponent from "../../components/Footer/Footer";
 import ProfileAlert from "../../components/Card/ProfileAlert";
 import SellerCard from "../../components/Card/SellerCard";
 import data from "../../json/dummy.json";
+import { Button } from "flowbite-react";
+import { CustomTheme } from "../../themes/theme";
 
 export const SellerContext = createContext();
 
@@ -18,6 +20,15 @@ const PotentialSeller = () => {
         <div className="flex items-center justify-center my-6">
           <ProfileAlert />
         </div>
+        <Button
+          size="sm"
+          theme={CustomTheme.button}
+          // onClick={}
+          href="/create-event"
+          style={{width:200, marginTop:10}}
+          color={"primary"}>
+          Tambahkan Event
+        </Button>
         <div className="flex flex-col mt-6">
           <h1 className="mb-6 text-lg font-bold sm:text-xl md:text-2xl lg:text-3xl">
             Potential Seller

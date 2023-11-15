@@ -2,12 +2,22 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import "./style.css";
 import NavbarAll from "../../components/PageComponent/NavbarAll";
+import useFormInput from "../../hooks/useFormInput";
+import usePostApi from "../../hooks/usePostApi";
 
 const ProfileForm = () => {
+  const apiUrlBase = "https://ketemuenak.fly.dev"
+  const id = localStorage.getItem('id');
+  const apiUrl = `${apiUrlBase}/eo/${id}`;
+
+  const [data, setData] = useState(null)
   const [image, setImage] = useState(null);
   const [imageBanner, setImageBanner] = useState(null);
   const [isDone, setIsDone] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null); //nanti diganti react context atau baca dari local storage
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [responseMessage, setResponseMessage] = useState(null);
+  const [error, setError] = useState(null);
+
 
   const [formData, setFormData] = useState({
     fotoProfile: null,
@@ -31,53 +41,85 @@ const ProfileForm = () => {
   });
 
   React.useEffect(()=>{
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = localStorage.getItem('role');
+    const token = localStorage.getItem('token');
+    const headers = { 'Authorization': `Bearer ${token}` };
     setSelectedUser(user)
-    if(selectedUser==="seller"){
-      const profileData = {
-        fotoProfile: null,
-        fotoBanner: null,
-        namaToko: "KetemuEnak",
-        address: null,
-        contact: null,
-        email: null,
-        linkSosmed: null,
-        description: null,
+    if(user==="seller"){  
+      const fetchData = async () => {
+        try {
+          const response = await fetch(apiUrl , {headers});
+          if (response.ok) {
+            const result = await response.json();
+            setData(result);
+            const profileData = {
+              fotoProfile: result[0].img_url,
+              fotoBanner: result[0].img_url,
+              namaToko: result[0].name,
+              address: result[0].address,
+              contact: result[0].contact,
+              email: result[0].email,
+              linkSosmed: result[0].socmed_or_web_url,
+              description: result[0].description,
+            };
+            console.log(profileData)
+            for (var i = 0; i < Object.keys(profileData).length; i++) {
+              const key = Object.keys(profileData)[i];
+              const value = Object.values(profileData)[i];
+              setFormData((prevData) => ({
+                ...prevData,
+                [key]: value
+              }));
+            }
+            if(profileData.namaToko !== null){
+              setIsDone(true)
+            }
+          } else {
+            throw new Error(`Failed to fetch data: ${response.statusText}`);
+          }
+        } catch (error) {
+          setError(error.message);
+        }
       };
-      console.log(Object.keys(profileData)[0])
-      for (var i = 0; i < Object.keys(profileData).length; i++) {
-        const key = Object.keys(profileData)[i];
-        const value = Object.values(profileData)[i];
-        setFormData((prevData) => ({
-          ...prevData,
-          [key]: value
-        }));
-      }
-      if(profileData.namaToko !== null){
-        setIsDone(true)
-      }
+      fetchData();
     }else{
-      const profileData = {
-        fotoProfile: null,
-        namaCompany: "dsadas",
-        phoneNumber: null,
-        deskripsiCompany: null,
-        alamat: null,
-        email: null,
-        linkSosmed: null,
+      const fetchData = async () => {
+        try {
+          const response = await fetch(apiUrl);
+          if (response.ok) {
+            const result = await response.json();
+            setData(result);
+            console.log(result[0])
+            const profileData = {
+              fotoProfile: result[0].img_url,
+              namaCompany: result[0].name,
+              phoneNumber: result[0].contact,
+              deskripsiCompany: result[0].description,
+              alamat: result[0].address,
+              email: result[0].email,
+              linkSosmed: result[0].socmed_or_web_url,
+            };
+            console.log(Object.keys(profileData)[0])
+            for (var i = 0; i < Object.keys(profileData).length; i++) {
+              const key = Object.keys(profileData)[i];
+              const value = Object.values(profileData)[i];
+              setFormDataEo((prevData) => ({
+                ...prevData,
+                [key]: value
+              }));
+            }
+            if(profileData.namaCompany !== null){
+              setIsDone(true)
+            }
+          } else {
+            throw new Error(`Failed to fetch data: ${response.statusText}`);
+          }
+        } catch (error) {
+          setError(error.message);
+        }
       };
-      console.log(Object.keys(profileData)[0])
-      for (var i = 0; i < Object.keys(profileData).length; i++) {
-        const key = Object.keys(profileData)[i];
-        const value = Object.values(profileData)[i];
-        setFormDataEo((prevData) => ({
-          ...prevData,
-          [key]: value
-        }));
-      }
-      if(profileData.namaCompany !== null){
-        setIsDone(true)
-      }
+
+      fetchData();
     }
 
   },[])
@@ -133,36 +175,84 @@ const ProfileForm = () => {
 
   };
 
-  const handleSubmit = (event) => {
-    if(selectedUser==="seller"){
-      const formValues = {
-        fotoProfile: formData.fotoProfile,
-        fotoBanner: formData.fotoBanner,
-        namaToko: formData.namaToko,
-        address: formData.address,
-        contact: formData.contact,
-        email: formData.email,
-        linkSosmed: formData.linkSosmed,
-        description: formData.description,
-      };
-      console.log(JSON.stringify(formValues, null, 2));
-      event.preventDefault();
-      setIsDone((prev) => !prev);
+  const handleSubmit = async(event) => {
+    if(!isDone){
+      if(selectedUser==="seller"){
+        event.preventDefault();
+        const formValues = {
+          name: formData.namaToko,
+          address: formData.address,
+          description: formData.description,
+          city: formData.address,
+          img_url: formData.fotoProfile,
+          socmed_or_web_url: formData.linkSosmed,
+          contact: formData.contact,
+          role: 'seller',
+          email: formData.email,
+        };
+        console.log(formValues)
+        try {
+          const response = await fetch(apiUrl, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+  
+            },
+            body: JSON.stringify(formValues),
+          });
+    
+          if (response.ok) {
+            const result = await response.json();
+            setResponseMessage(result.message);
+          } else {
+            throw new Error(`Failed to make PUT request: ${response.statusText}`);
+          }
+        } catch (error) {
+          setError(error.message);
+        }
+        console.log(JSON.stringify(formValues, null, 2));
+  
+        setIsDone((prev) => !prev);
     }else{
+      event.preventDefault();
       const formValues = {
-        fotoProfile: formDataEo.fotoProfile,
-        namaCompany: formDataEo.namaCompany,
-        phoneNumber: formDataEo.phoneNumber,
-        deskripsiCompany: formDataEo.deskripsiCompany,
-        alamat: formDataEo.alamat,
+        img_url: formDataEo.fotoProfile,
+        name: formDataEo.namaCompany,
+        contact: formDataEo.phoneNumber,
+        description: formDataEo.deskripsiCompany,
+        role: 'eo',
+        address: formDataEo.alamat,
         email: formDataEo.email,
-        linkSosmed: formDataEo.linkSosmed,
+        socmed_or_web_url: formDataEo.linkSosmed,
       };
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+
+          },
+          body: JSON.stringify(formValues),
+        });
+  
+        if (response.ok) {
+          const result = await response.json();
+          setResponseMessage(result.message);
+        } else {
+          throw new Error(`Failed to make PUT request: ${response.statusText}`);
+        }
+      } catch (error) {
+        setError(error.message);
+      }
       console.log(JSON.stringify(formValues, null, 2));
+
+      setIsDone((prev) => !prev);
+    }
+    } 
+    else{
       event.preventDefault();
       setIsDone((prev) => !prev);
     }
-
   };
   return (
     <div class="my-app">

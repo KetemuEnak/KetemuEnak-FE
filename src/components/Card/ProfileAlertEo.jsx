@@ -4,9 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 const ProfileAlertEo = () => {
   const navigate = useNavigate()
-  const handleProfileEo=()=>{
-    localStorage.setItem('user', JSON.stringify("eo"));
-  }
   return (
     <Banner>
       <div className="flex w-full flex-col justify-between rounded-lg border border-gray-100 bg-white p-4 shadow-sm dark:border-gray-600 dark:bg-gray-700 md:flex-row lg:max-w-7xl">
@@ -26,8 +23,7 @@ const ProfileAlertEo = () => {
           <Button
             size="sm"
             theme={CustomTheme.button}
-            onClick={handleProfileEo}
-            href="/create-seller"
+            href="/create-profile"
             color={"primary"}>
             Lengkapi Profile
           </Button>

@@ -29,30 +29,15 @@ const NavbarLandingPage = () => {
 
   return (
     <div className="container-navbar flex justify-center">
-        <nav
-          className={`navbar navbar-expand-sm fixed top-0 w-full transition-all duration-500 ease-in-out ${
-            colorNavbar
-              ? "bg-opacity-20 bg-white backdrop-filter backdrop-saturate z-10"
-              : "bg-transparent z-10"
-          }`}
-          style={{ paddingTop: 20, paddingBottom: 20 }}
-        >
+      <nav
+        className={`navbar navbar-expand-sm fixed top-0 w-full transition-all duration-500 ease-in-out ${colorNavbar ? "bg-opacity-20 bg-white backdrop-filter backdrop-saturate z-10" : "bg-transparent z-10"}`}
+        style={{ paddingTop: 20, paddingBottom: 20 }}
+      >
         <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto">
-          <a
-            className={`navbar-brand navbar-judul ${
-              colorNavbar ? "text-black" : "text-white"
-            } pl-4 pr-4 rounded-2xl`}
-            href="/"
-            style={{marginLeft:40}}
-          >
+          <a className={`navbar-brand navbar-judul ${colorNavbar ? "text-black" : "text-white"} pl-4 pr-4 rounded-2xl`} href="/" style={{ marginLeft: 40 }}>
             Ketemu Enak
           </a>
-          <button
-            onClick={showSidebar}
-            style={sidebar ? { visibility: "hidden" } : { visibility: "visible" }}
-            className="navbar-toggler d-lg-none"
-            type="button"
-          >
+          <button onClick={showSidebar} style={sidebar ? { visibility: "hidden" } : { visibility: "visible" }} className="navbar-toggler d-lg-none" type="button">
             <span className="navbar-toggler-icon"></span>
           </button>
           {sidebar && (
@@ -60,10 +45,7 @@ const NavbarLandingPage = () => {
               <div className="wrapper-sidebar">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item title-first">
-                    <a
-                      className="nav-link first-to-button title-sidebar"
-                      href="/#bannerSection"
-                    >
+                    <a className="nav-link first-to-button title-sidebar" href="/#bannerSection">
                       Ketemu Enak
                     </a>
                     <img onClick={showSidebar} src={CloseIcon} alt="" />
@@ -82,20 +64,14 @@ const NavbarLandingPage = () => {
               </div>
             </div>
           )}
-          <ul className={`navbar-nav flex ${colorNavbar ? 'text-black' : 'text-white'}`}>
+          <ul className={`navbar-nav flex ${colorNavbar ? "text-black" : "text-white"}`}>
             <li className="nav-item">
-              <a
-                className={`nav-link ${colorNavbar ? "text-black" : "text-white"}`}
-                href="/signin-eo"
-              >
+              <a className={`nav-link ${colorNavbar ? "text-black" : "text-white"}`} href="/signin-eo">
                 Join as EO
               </a>
             </li>
             <li className="nav-item">
-              <a
-                className={`nav-link mx-3 ${colorNavbar ? "text-black" : "text-white"}`}
-                href="/signin"
-              >
+              <a className={`nav-link mx-3 ${colorNavbar ? "text-black" : "text-white"}`} href="/signin">
                 Join as Seller
               </a>
             </li>
@@ -109,7 +85,7 @@ const NavbarLandingPage = () => {
                   borderRadius: "5px",
                   backgroundColor: colorNavbar ? "#BCA37F" : "rgb(214,214,214)",
                   color: colorNavbar ? "white" : "black",
-                  marginRight:50
+                  marginRight: 50,
                 }}
               >
                 Find Event

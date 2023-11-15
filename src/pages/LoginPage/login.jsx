@@ -6,7 +6,9 @@ import './style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useState } from "react";
-
+import useFormInput from "../../hooks/useFormInput";
+import usePostApi from "../../hooks/usePostApi";
+import { useEffect } from "react";
 
 const FormSignIn = () => {
   const navigate = useNavigate();
@@ -15,16 +17,62 @@ const FormSignIn = () => {
   const [isFocused, setIsFocused] = useState(false)
   const [isFocusedEmail, setIsFocusedEmail] = useState(false)
   const [isSubmitWrong, setIsSubmitWrong] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const email = useFormInput('');
+  const password = useFormInput('');
+
+  const apiUrlBase = "https://ketemuenak.fly.dev"
+  const apiUrl = `${apiUrlBase}/auth/login`;
+  const { data, loading, error, request } = usePostApi(apiUrl);
+
+  useEffect(()=>{
+    const role = localStorage.getItem("role");
+    if (localStorage.getItem('token') !== null && role == "seller"){
+      navigate('/event');
+    }
+  },[])
   
-  const handleButtonRegister = (e) => {
+  const handleButtonRegister = async(e) => {
+    e.preventDefault();
     if(isPasswordDone==true && isEmailDone===true){
-      navigate("/seller");
+      const postData = {
+        email: email.value,
+        password: password.value,
+      };
+      try {
+        const { response, data: responseData, error: requestError } = await request(
+          apiUrl,
+          'POST',
+          postData
+        );
+        if (response && response.status === 200) {
+          const token = responseData.token;
+          const id = responseData.user.id
+          if (token) {
+            localStorage.setItem('role','seller')
+            localStorage.setItem('token', `${token}`)
+            localStorage.setItem('id', `${id}`)
+            navigate('/seller');
+          } else {
+            console.log('Received non-200 status code:', response ? response.status : 'No response');
+          }
+        } else{
+          setErrorMessage('Email or password is incorrect. Please try again.');
+        }
+        if (requestError) {
+          console.error('Error:', requestError);
+        }
+      } catch (error) {
+        console.error('Unhandled error:', error);
+      }
     }
     else{
       setIsSubmitWrong(true)
     }
-    e.preventDefault();
+
   };
+  
   const handlePassword = (e) => {
     var value = e.target.value
     if(value.length >= 8 && /[^\w\s]/.test(value)){
@@ -75,11 +123,14 @@ const FormSignIn = () => {
                 <Form.Control
                   required
                   className={`inputLogin ${isEmailDone ? 'focus:border-blue-500 focus:shadow-blue-500 focus:outline-none ' : 'focus:outline-none focus:border-red-500 focus:shadow-red-500'}`}
-
+                  {...email.value}
                   name="email"
                   type="email"
                   placeholder="Enter email"
-                  onChange={handleEmail}
+                  onChange={(e) => {
+                    email.onChange(e);
+                    handleEmail(e);
+                  }}
                   onFocus={() => setIsFocusedEmail(true)}
                   onBlur={() => setIsFocusedEmail(false)}
                   style={
@@ -99,11 +150,16 @@ const FormSignIn = () => {
                 <Form.Label>Password<span style={{color:"red"}}>*</span></Form.Label>
                 <Form.Control
                   required
+                  {...password.value}
                   className={`inputLogin ${isPasswordDone ? 'focus:border-blue-500 focus:shadow-blue-500 focus:outline-none ' : 'focus:outline-none focus:border-red-500 focus:shadow-red-500'}`}
                   name="password"
                   type="password"
                   placeholder="Password"
-                  onChange={handlePassword}
+                  onChange={(e) => {
+                    password.onChange(e);
+                    handlePassword(e);
+                  }}
+                  
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
                   style={
@@ -118,6 +174,12 @@ const FormSignIn = () => {
                 {isSubmitWrong ? (   <Form.Text className="text-muted">
                   <span  className="text-red-500">
                   Make sure the password is at least 8 characters and contains at least 1 symbol.
+                    </span>
+                </Form.Text>) : null}
+
+                {errorMessage ? (   <Form.Text className="text-muted">
+                  <span  className="text-red-500">
+                  {errorMessage}
                     </span>
                 </Form.Text>) : null}
                        
@@ -144,19 +206,7 @@ const FormSignIn = () => {
                   }}
                 >
                   {" "}
-                  <u>Seller</u> or
-                </Link>
-                <Link
-                  to="/signup-eo"
-                  style={{
-                    textDecoration: "none",
-                    color: "black",
-                    fontWeight: "bold",
-                    fontStyle: "",
-                  }}
-                >
-                  {" "}
-                  <u>EO</u>
+                  <u>Seller</u>
                 </Link>
               </p>
             </Form>

@@ -60,7 +60,7 @@
     {
       "id": 1,
       "event_name": "Traditional Food Festival",
-      "event_image": "/src/components/assets/image.png",
+      "event_image": "https://i.pinimg.com/236x/39/eb/d8/39ebd87fbf4f988ee815e06f17c90e5f.jpg",
       "city": "Jakarta",
       "location": "https://maps.example.com/Jakarta-town-square",
       "date": "April 5-7, 2023",
@@ -71,7 +71,7 @@
     {
       "id": 2,
       "event_name": "Archipelago Culinary Feast",
-      "event_image": "/src/components/assets/image.png",
+      "event_image": "https://i.pinimg.com/564x/2a/4c/ff/2a4cffc17353a8e4560a7361ee54cfba.jpg",
       "city": "Depok",
       "location": "https://maps.example.com/Depok-culinary-garden",
       "date": "May 12-14, 2023",
@@ -82,7 +82,7 @@
     {
       "id": 3,
       "event_name": "Beachfront Evening Culinary Experience",
-      "event_image": "/src/components/assets/image.png",
+      "event_image": "https://i.pinimg.com/564x/2a/4c/ff/2a4cffc17353a8e4560a7361ee54cfba.jpg",
       "city": "Bekasi",
       "location": "https://maps.example.com/jimbaran-beach-Bekasi",
       "date": "Every Friday and Saturday Night",
@@ -93,7 +93,7 @@
     {
       "id": 4,
       "event_name": "Food Truck Carnival",
-      "event_image": "/src/components/assets/image.png",
+      "event_image": "https://i.pinimg.com/564x/2a/4c/ff/2a4cffc17353a8e4560a7361ee54cfba.jpg",
       "city": "Jakarta",
       "location": "https://maps.example.com/gelora-bung-karno-jakarta",
       "date": "July 20-22, 2023",
@@ -104,13 +104,46 @@
     {
       "id": 5,
       "event_name": "Indonesian Culinary Showcase",
-      "event_image": "/src/components/assets/image.png",
+      "event_image": "https://i.pinimg.com/564x/4e/2b/8d/4e2b8d004e4f64190d9ca2c94d724147.jpg",
       "city": "Bogor",
       "location": "https://maps.example.com/karebosi-field-Bogor",
       "date": "November 10-12, 2023",
       "description": "Exhibition and sale of traditional regional Indonesian cuisine, accompanied by art and cultural performances.",
       "quota": "Unlimited",
       "ticket_price": "IDR 25,000"
+    },
+    {
+      "id": 6,
+      "event_name": "Traditional Food Festival",
+      "event_image": "https://i.pinimg.com/236x/39/eb/d8/39ebd87fbf4f988ee815e06f17c90e5f.jpg",
+      "city": "Jakarta",
+      "location": "https://maps.example.com/Jakarta-town-square",
+      "date": "April 5-7, 2023",
+      "description": "An Indonesian traditional food festival featuring a variety of dishes from across the archipelago.",
+      "quota": "Unlimited",
+      "ticket_price": "Free of charge"
+    },
+    {
+      "id": 7,
+      "event_name": "Archipelago Culinary Feast",
+      "event_image": "https://i.pinimg.com/564x/2a/4c/ff/2a4cffc17353a8e4560a7361ee54cfba.jpg",
+      "city": "Depok",
+      "location": "https://maps.example.com/Depok-culinary-garden",
+      "date": "May 12-14, 2023",
+      "description": "Exhibition and sale of authentic regional Indonesian cuisine, accompanied by cultural performances.",
+      "quota": "Unlimited",
+      "ticket_price": "IDR 50,000"
+    },
+    {
+      "id": 8,
+      "event_name": "Beachfront Evening Culinary Experience",
+      "event_image": "https://i.pinimg.com/564x/2a/4c/ff/2a4cffc17353a8e4560a7361ee54cfba.jpg",
+      "city": "Bekasi",
+      "location": "https://maps.example.com/jimbaran-beach-Bekasi",
+      "date": "Every Friday and Saturday Night",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus dicta doloribus perferendis dolorum, nihil repellendus vitae fugit eos ea corrupti ullam quos ipsa illo? Distinctio aspernatur recusandaeamet doloremque beatae dolore architecto veritatis, molestias reprehenderit nostrum dolor quos laborum, minima, illo voluptatibus perspiciatis neque ad. Illo quod tenetur ullam eum?",
+      "quota": "Unlimited",
+      "ticket_price": "Varies based on order"
     }
   ]
 }
