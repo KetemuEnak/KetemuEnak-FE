@@ -107,7 +107,7 @@ function HomeContent() {
                               <img className="ml-4 w-32 h-32 md:w-52 md:h-52 rounded-md object-cover" src={event.img_url} alt="Image Event" />
                             </div>
                             <div className="min-w-0 text-left">
-                              <div className="flex flex-col md:flex-row justify-between gap-y-1 md:w-[490px] xl:mr-14 xl:w-[900px]">
+                              <div className="flex flex-col md:flex-row justify-between gap-y-1 md:w-[490px] xl:mr-14 xl:w-[900px] pointer-events-none">
                                 <h2 className="text-2xl sm:mt-3 md:mt-0 ml-[-2px] md:text-3xl font-bold text-gray-900 dark:text-white">{event.title}</h2>
                                 <span className="text-white bg-[#C98411] focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2 mr-2 mb-2 focus:outline-none self-start">{event.city}</span>
                               </div>
