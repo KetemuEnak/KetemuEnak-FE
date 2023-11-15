@@ -105,7 +105,7 @@ function HomeContent() {
                         <div className="py-3 sm:py-6 border-b-2 border-b-black">
                           <div className="md:flex items-center space-x-4">
                             <div className="flex-shrink-0">
-                              <img className="sm:ml-4 w-32 h-32 md:w-52 md:h-52 rounded-md object-cover" src={event.img_url} alt="Image Event" />
+                              <img className="ml-4 w-32 h-32 md:w-52 md:h-52 rounded-md object-cover" src={event.img_url} alt="Image Event" />
                             </div>
                             <div className="min-w-0 text-left">
                               <div className="flex flex-col md:flex-row justify-between gap-y-1 md:w-[490px] xl:mr-14 xl:w-[900px]">
