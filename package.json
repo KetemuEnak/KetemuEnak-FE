@@ -1,6 +1,7 @@
 {
   "name": "gigih-capstone",
   "private": true,
+  "proxy": "https://ketemuenak.fly.dev",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
