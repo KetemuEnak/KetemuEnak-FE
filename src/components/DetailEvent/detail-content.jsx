@@ -101,11 +101,11 @@ function DetailContent() {
                           </td>
                         </tr>
                         <tr>
-                          <td className="text-ls font-semi-bold align-text-top text-gray-900 dark:text-white">Website Kami</td>
+                          <td className="text-ls font-semi-bold align-text-top text-gray-900 dark:text-white">Website</td>
                           <td className="align-text-top px-1">:</td>
                           <td className="text-ls font-semi-bold align-text-top text-gray-900 dark:text-white">
                             <Link to={event.url_website} className="text-blue-700">
-                              {event.url_website}
+                              {event.url_website || " "}
                             </Link>
                           </td>
                         </tr>
