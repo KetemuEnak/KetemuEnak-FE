@@ -1,16 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UpcomingEvent from "./pages/Event";
-import PotentialSeller from "./pages/Seller";
-import GuestNavbar from "./components/Navigation/GuestNavbar";
-import HomePage from "./pages/HomePage";
+import CreateEvent from "./pages/CreateEvent";
 import DetailEvent from "./pages/DetailPage";
-import ProfilePage from "./pages/ProfilePage";
-import LandingPage from "./pages/LandingPage/LandingPage";
+import UpcomingEvent from "./pages/Event";
+import GuestNavbar from "./components/Navigation/GuestNavbar";
 import FormSignIn from "./pages/LoginPage/login";
 import FormSignInEo from "./pages/LoginPageEo/login";
 import FormSignUpEo from "./pages/SignUpPage/FormSignUpEo";
 import FormSignUp from "./pages/SignUpPage/FormSignUp";
-import CreateEvent from "./pages/CreateEvent";
+import HomePage from "./pages/HomePage";
+import LandingPage from "./pages/LandingPage/LandingPage";
+import NotFound from "./components/NotFound";
+import PotentialSeller from "./pages/Seller";
+import ProfilePage from "./pages/ProfilePage";
 import ProfileForm from "./pages/CreateProfile";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -18,6 +19,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="*" element={<NotFound />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/signin" element={<FormSignIn />} />
         <Route path="/signin-eo" element={<FormSignInEo />} />
