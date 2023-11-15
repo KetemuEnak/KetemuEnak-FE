@@ -57,7 +57,7 @@ const ProfileForm = () => {
               fotoBanner: result[0].img_url,
               namaToko: result[0].name,
               address: result[0].address,
-              contact: result[0].contact,
+              contact: Number(result[0].contact),
               email: result[0].email,
               linkSosmed: result[0].socmed_or_web_url,
               description: result[0].description,
@@ -186,7 +186,7 @@ const ProfileForm = () => {
           city: formData.address,
           img_url: formData.fotoProfile,
           socmed_or_web_url: formData.linkSosmed,
-          contact: formData.contact,
+          contact: Number(formData.contact),
           role: 'seller',
           email: formData.email,
         };
