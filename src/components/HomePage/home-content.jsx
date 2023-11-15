@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Banner from "/src/components/assets/banner.png";
+import Image from "/src/components/assets/image.png";
+import isUrl from "../../utils/CekUrl";
 
 import NavbarAll from "../PageComponent/NavbarAll";
 import Footer from "../PageComponent/Footer";
@@ -104,7 +106,7 @@ function HomeContent() {
                         <div className="py-3 sm:py-6 border-b-2 border-b-black">
                           <div className="md:flex items-center space-x-4">
                             <div className="flex-shrink-0">
-                              <img className="ml-4 w-32 h-32 md:w-52 md:h-52 rounded-md object-cover" src={event.img_url} alt="Image Event" />
+                              <img className="ml-4 w-32 h-32 md:w-52 md:h-52 rounded-md object-cover" src={isUrl(event.img_url) ? event.img_url : Image} alt="Image Event" />
                             </div>
                             <div className="min-w-0 text-left">
                               <div className="flex flex-col md:flex-row justify-between gap-y-1 md:w-[490px] xl:mr-14 xl:w-[900px] pointer-events-none">
