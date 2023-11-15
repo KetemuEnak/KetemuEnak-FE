@@ -1,19 +1,19 @@
 import { Card, Button, Tooltip } from "flowbite-react";
 import { useState } from "react";
-import { BsCalendar3, BsEnvelopePaper } from "react-icons/bs";
+import { BsCalendar3 } from "react-icons/bs";
 import { IoLocationOutline } from "react-icons/io5";
 import ModalDetailEvent from "../Modals/ModalDetailEvent";
 import ConvertDate from "../../utils/ConvertDate";
 import { CustomTheme } from "../../themes/theme";
 
 const EventCard = ({
+  isRegistered,
   img,
   title,
-  applyBefore,
   eventDate,
   location,
   desc,
-  isApplied,
+  city,
 }) => {
   const [openModal, setOpenModal] = useState(false);
   return (
@@ -22,15 +22,7 @@ const EventCard = ({
         <h5 className="mb-2 text-base font-bold tracking-tight text-gray-900 md:text-lg lg:text-xl">
           {title}
         </h5>
-        <div className="flex flex-wrap justify-between gap-y-1 gap-x-5">
-          <Tooltip content="Batas Tanggal Pendaftaran" placement="bottom">
-            <div className="flex items-center content-center gap-x-2">
-              <BsEnvelopePaper />
-              <p className="font-normal text-gray-700">
-                {ConvertDate(applyBefore)}
-              </p>
-            </div>
-          </Tooltip>
+        <div className="grid grid-cols-1 gap-y-1 gap-x-5">
           <Tooltip content="Waktu Pelaksanaan" placement="bottom">
             <div className="flex items-center content-center gap-x-2">
               <BsCalendar3 />
@@ -42,7 +34,9 @@ const EventCard = ({
           <Tooltip content="Lokasi" placement="bottom" className="col-span-2">
             <div className="flex items-center content-center gap-x-2">
               <IoLocationOutline />
-              <p className="font-normal text-gray-700">{location}</p>
+              <p className="font-normal text-gray-700">
+                {location}, {city}
+              </p>
             </div>
           </Tooltip>
         </div>
@@ -54,8 +48,11 @@ const EventCard = ({
         <Button color="light" onClick={() => setOpenModal(true)}>
           Detail
         </Button>
-        <Button disabled={isApplied} theme={CustomTheme.button} color="primary">
-          {isApplied ? "Terdaftar" : "Daftar"}
+        <Button
+          disabled={isRegistered}
+          theme={CustomTheme.button}
+          color="primary">
+          {isRegistered ? "Terdaftar" : "Daftar"}
         </Button>
       </div>
       <ModalDetailEvent
@@ -63,11 +60,11 @@ const EventCard = ({
         setOpenModal={setOpenModal}
         title={title}
         img={img}
-        isApplied={isApplied}
-        applyBefore={applyBefore}
+        isRegistered={isRegistered}
         eventDate={eventDate}
         location={location}
         desc={desc}
+        city={city}
       />
     </Card>
   );

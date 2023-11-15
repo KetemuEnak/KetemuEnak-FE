@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UpcomingEvent from "./pages/Event";
+import Event from "./pages/Event";
 import PotentialSeller from "./pages/Seller";
 import HomePage from "./pages/HomePage";
 import DetailEvent from "./pages/DetailPage";
@@ -22,7 +22,7 @@ function App() {
         <Route path="/signin-eo" element={<FormSignInEo />} />
         <Route path="/signup-eo" element={<FormSignUpEo />} />
         <Route path="/signup-seller" element={<FormSignUp />} />
-        <Route path="/seller" element={<UpcomingEvent />} />
+        <Route path="/seller" element={<Event />} />
         <Route path="/event" element={<PotentialSeller />} />
         <Route path="/list-event" element={<HomePage />} />
         <Route path="/events/:eventId" element={<DetailEvent />} />
