@@ -76,7 +76,7 @@ function DetailContent() {
                     <img className="h-full py-3 px-4" src={event.img_url || EventImage} alt="logo" />
                   </div>
                   <div className="min-w-0 text-start">
-                    <div className="my-3">
+                    <div className="my-3 pointer-events-none">
                       <span className="text-white bg-[#C98411] focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2 mr-2 mb-2 focus:outline-none self-start">{event.city}</span>
                     </div>
                     <table className=" table-auto ">
