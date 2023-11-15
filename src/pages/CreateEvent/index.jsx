@@ -9,10 +9,17 @@ import { Cookies } from "react-cookie";
 import "react-day-picker/dist/style.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from "react-router-dom";
 
 const CreateEvent = () => {
+  const navigate = useNavigate()
   const [image, setImage] = useState(null);
   const [isDone, setIsDone] = useState(false);
+  const [error, setError] = useState(null);
+
+  const apiUrlBase = "https://ketemuenak.fly.dev"
+  const id = localStorage.getItem('id');
+  const apiUrl = `${apiUrlBase}/eo/${id}/event`;
 
   const [formData, setFormData] = useState({
     foto: null,
@@ -26,31 +33,31 @@ const CreateEvent = () => {
     HargaTiket: null,
   });
 
-  React.useEffect(()=>{
-    const userData = {
-      foto: null,
-      namaEvent: null,
-      tanggalEvent: null,
-      status: "buka",
-      kotaEvent: null,
-      LinkGmaps: null,
-      Deskripsi: null,
-      Kuota: 0,
-      HargaTiket: null,
-    };
-    console.log(Object.keys(userData)[0])
-    for (var i = 0; i < Object.keys(userData).length; i++) {
-      const key = Object.keys(userData)[i];
-      const value = Object.values(userData)[i];
-      setFormData((prevData) => ({
-        ...prevData,
-        [key]: value
-      }));
-    }
-    if(userData.namaEvent !== null){
-      setIsDone(true)
-    }
-  },[])
+  // React.useEffect(()=>{
+  //   const userData = {
+  //     foto: null,
+  //     namaEvent: null,
+  //     tanggalEvent: null,
+  //     status: "buka",
+  //     kotaEvent: null,
+  //     LinkGmaps: null,
+  //     Deskripsi: null,
+  //     Kuota: 0,
+  //     HargaTiket: null,
+  //   };
+  //   console.log(Object.keys(userData)[0])
+  //   for (var i = 0; i < Object.keys(userData).length; i++) {
+  //     const key = Object.keys(userData)[i];
+  //     const value = Object.values(userData)[i];
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       [key]: value
+  //     }));
+  //   }
+  //   if(userData.namaEvent !== null){
+  //     setIsDone(true)
+  //   }
+  // },[])
 
   const handleIncrement = () => {
     setFormData({ ...formData, Kuota: formData.Kuota+1 });
@@ -89,24 +96,68 @@ const CreateEvent = () => {
     
   };
 
-  const handleSubmit = (event) => {
-    const formValues = {
-      foto: formData.foto,
-      namaEvent: formData.namaEvent,
-      tanggalEvent: formData.tanggalEvent,
-      status: formData.status,
-      kotaEvent: formData.kotaEvent,
-      LinkGmaps: formData.LinkGmaps,
-      Deskripsi: formData.Deskripsi,
-      Kuota: formData.Kuota,
-      HargaTiket: formData.HargaTiket,
-    };
+  // const handleSubmit = (event) => {
+  //   const formValues = {
+  //     foto: formData.foto,
+  //     namaEvent: formData.namaEvent,
+  //     tanggalEvent: formData.tanggalEvent,
+  //     status: formData.status,
+  //     kotaEvent: formData.kotaEvent,
+  //     LinkGmaps: formData.LinkGmaps,
+  //     Deskripsi: formData.Deskripsi,
+  //     Kuota: formData.Kuota,
+  //     HargaTiket: formData.HargaTiket,
+  //   };
 
-    // Log the form values in JSON format
-    console.log(JSON.stringify(formValues, null, 2));
+  //   // Log the form values in JSON format
+  //   console.log(JSON.stringify(formValues, null, 2));
+  //   event.preventDefault();
+  //   setIsDone((prev) => !prev);
+  // };
+
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    setIsDone((prev) => !prev);
-  };
+    if(!isDone){
+      try {
+        const dateNow = new Date()
+        const formValues = {
+          img_url: formData.foto,
+          title: formData.namaEvent,
+          time: formData.tanggalEvent,
+          status: formData.status,
+          city: formData.kotaEvent,
+          url_website: formData.LinkGmaps,
+          description: formData.description,
+          max_seller: formData.Kuota,
+          tiket_price: formData.HargaTiket,
+          is_publish: true,
+          published_at: dateNow
+        };
+        console.log(JSON.stringify(formValues, null, 2));
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+
+          },
+          body: JSON.stringify(formValues),
+        });
+  
+        if (response.ok) {
+          const result = await response.json();
+          setResponseMessage(result.message);
+        } else {
+          throw new Error(`Failed to make PUT request: ${response.statusText}`);
+        }
+      } catch (error) {
+        setError(error.message);
+      }
+      navigate('/event')
+    }
+    else{
+      setIsDone((prev) => !prev);
+    }
+  }
 
 
 
@@ -137,8 +188,8 @@ const CreateEvent = () => {
   }
 
   const handleDate =() =>{
-    const date = `${format(range.from, "PPP")}–${format(range.to, "PPP")}`;
-    setFormData({ ...formData, tanggalEvent: date });
+    const date = `${format(range.from, "PPP")}`;
+    setFormData({ ...formData, tanggalEvent: range.from, });
     setDisplay(false)
   }
   return (

@@ -9,30 +9,85 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 // import ImageRegister from "../../../../image/landing-register.png";
 import "./style.css";
-// import { authContextRegister } from "../../../context/authRegister";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "react-bootstrap";
-// import serviceGirlImage from "../../../../image/seller_signup.png";
-// import serviceEoImage from "../../../image/img_service_eo.png";
+import useFormInput from "../../../hooks/useFormInput";
+import usePostApi from "../../../hooks/usePostApi";
+import { useEffect } from "react";
 
 const FormSignUpEo = () => {
   const navigate = useNavigate();
-  // const [postAuthRegister, dataAuthRegister] = useContext(authContextRegister);
-  // const { message } = dataAuthRegister?.dataAuthRegister || {};
-  // console.log({ dataAuthRegister });
-
   const [message, setMessage] = useState(false)
-  const handleButtonRegister = (e) => {
+  const [isPasswordDone, setIsPasswordDone] = useState(false)
+  const [isEmailDone, setIsEmailDone] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
+  const [isFocusedEmail, setIsFocusedEmail] = useState(false)
+  const [isSubmitWrong, setIsSubmitWrong] = useState(false)
+  const email = useFormInput('');
+  const password = useFormInput('');
+
+  const apiUrlBase = "https://ketemuenak.fly.dev"
+  const apiUrl = `${apiUrlBase}/auth/register`;
+  const { data, loading, error, request } = usePostApi(apiUrl);
+
+  useEffect(()=>{
+    const role = localStorage.getItem("role");
+    if (localStorage.getItem('token') !== null && role == "eo"){
+      navigate('/eo');
+    }
+  },[])
+  
+  const handleButtonRegister = async(e) => {
     e.preventDefault();
-    const { name, email, password } = e.target.elements;
-    console.log({ name, email, password });
-    postAuthRegister({
-      name: name.value,
+    const postData = {
       email: email.value,
       password: password.value,
-    });
-    navigate("/signin");
+      role: 'eo'
+    };
+    try {
+      const { response, data: responseData, error: requestError } = await request(
+        apiUrl,
+        'POST',
+        postData
+      );
+      const token = responseData.token;
+      console.log(token)
+      if (token) {
+        navigate('/signin-eo');
+      } else {
+        console.log('Received non-200 status code:', response ? response.status : 'No response');
+        setErrorMessage('Email or password is incorrect. Please try again.');
+      }
+
+      if (requestError) {
+        console.error('Error:', requestError);
+      }
+    } catch (error) {
+      console.error('Unhandled error:', error);
+    }
+
   };
+  const handlePassword = (e) => {
+    var value = e.target.value
+    if(value.length >= 8 && /[^\w\s]/.test(value)){
+      setIsPasswordDone(true)
+    }
+    else{
+      setIsPasswordDone(false)
+    }
+  }
+  const handleEmail = (e) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var value = e.target.value
+    const isEmailValid = emailRegex.test(value);
+    if(isEmailValid){
+      setIsEmailDone(true)
+    }
+    else{
+      setIsEmailDone(false)
+    }
+  }
+
 
   return (
     <div>
@@ -59,38 +114,63 @@ const FormSignUpEo = () => {
                   {message}
                 </Alert>
               )}
-              <Form.Group className="mb-3 form-sign-up">
-                <Form.Label className="form-label">Name*</Form.Label>
-                <Form.Control
-                  required
-                  name="name"
-                  type="text"
-                  placeholder="Nama Lengkap"
-                />
-              </Form.Group>
               <Form.Group
                 className="mb-3 form-sign-up"
                 controlId="formBasicEmail"
               >
-                <Form.Label className="form-label">Email*</Form.Label>
+                <Form.Label className="form-label">Email<span style={{color:"red"}}>*</span></Form.Label>
                 <Form.Control
+                  {...email.value}
                   required
+                  onChange={(e) => {
+                    email.onChange(e);
+                    handleEmail(e);
+                  }}
                   name="email"
                   type="email"
                   placeholder="Contoh: johndee@gmail.com"
+                  onFocus={() => setIsFocusedEmail(true)}
+                  onBlur={() => setIsFocusedEmail(false)}
+                  className={`inputSignUp ${isEmailDone ? 'focus:border-blue-500 focus:shadow-blue-500 focus:outline-none ' : 'focus:outline-none focus:border-red-500 focus:shadow-red-500'}`}
+                  style={
+                    isFocusedEmail
+                      ? isEmailDone
+                        ? { boxShadow: '0 0 0 0.2rem rgba(0, 0, 255, 0.25)', borderColor: 'blue' }
+                        : { boxShadow: '0 0 0 0.2rem rgba(220, 53, 69, 0.25)', borderColor: '#dc3545' }
+                      : null 
+                  }
                 />
               </Form.Group>
               <Form.Group
                 className="mb-3 form-sign-up"
                 controlId="formBasicPassword"
               >
-                <Form.Label className="form-label">Create Password*</Form.Label>
+                <Form.Label className="form-label">Create Password<span style={{color:"red"}}>*</span></Form.Label>
                 <Form.Control
                   required
+                  {...password.value}
                   name="password"
                   type="password"
                   placeholder="6+ karakter"
+                  onChange={(e) => {
+                    password.onChange(e);
+                    handlePassword(e);
+                  }}
+                  className={`inputSignUp ${isPasswordDone ? 'focus:border-blue-500 focus:shadow-blue-500 focus:outline-none ' : 'focus:outline-none focus:border-red-500 focus:shadow-red-500'}`}
+
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  style={
+                    isFocused
+                      ? isPasswordDone
+                        ? { boxShadow: '0 0 0 0.2rem rgba(0, 0, 255, 0.25)', borderColor: 'blue' }
+                        : { boxShadow: '0 0 0 0.2rem rgba(220, 53, 69, 0.25)', borderColor: '#dc3545' }
+                      : null 
+                  }
                 />
+                <Form.Text className="text-muted">
+                  Minimal 8 kata dan 1 symbol.
+                </Form.Text>
               </Form.Group>
 
               <Button

@@ -4,7 +4,6 @@ import ProfileAlertEo from "../../components/Card/ProfileAlertEo";
 import EventCard from "../../components/Card/EventCard";
 import data from "../../json/dummy.json";
 import { createContext } from "react";
-import { Button } from "flowbite-react";
 import { CustomTheme } from "../../themes/theme";
 
 export const EventContext = createContext();
@@ -22,15 +21,6 @@ const UpcomingEvent = () => {
         <div className="flex flex-col mt-6">
           <h1 className="mb-6 text-lg font-bold md:text-xl lg:text-2xl">
             Acara Terdaftar           
-            <Button
-              size="sm"
-              theme={CustomTheme.button}
-              // onClick={}
-              href="/create-event"
-              style={{width:200, marginTop:10}}
-              color={"primary"}>
-              Tambahkan Event
-            </Button>
           </h1>
 
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 ">
