@@ -40,8 +40,6 @@ function HomeContent() {
     fetchEvent();
   }, []);
 
-  console.log(events);
-
   const handleClick = (city) => {
     setIsCity(city);
   };
@@ -50,7 +48,8 @@ function HomeContent() {
     setSearchTerm(e.target.value);
   };
 
-  const filteredEvents = events.filter((event) => (isCity ? event.city?.toLowerCase() === isCity?.toLowerCase() : "" || event.title?.toLowerCase().includes(searchTerm.toLowerCase())));
+  const sortedEvents = [...events].sort((a, b) => new Date(a.time) - new Date(b.time));
+  const filteredEvents = sortedEvents.filter((event) => (isCity ? event.city?.toLowerCase() === isCity?.toLowerCase() : "" || event.title?.toLowerCase().includes(searchTerm.toLowerCase())));
 
   return (
     <>
