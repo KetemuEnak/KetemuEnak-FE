@@ -8,7 +8,7 @@ const Footer = () => {
     <footer class="text-center text-lg-start">
       <section class="container-all-footer">
         <div class="container-footer text-center text-md-center mt-5">
-          <div class="mt-3 wrapper-footer">
+          <div class="pt-4 wrapper-footer">
             <div class="address-footer mb-4">
               <ul class="list-unstyled mb-0 text-start">
                 <li>Jalan Ketemu Enak, Surabaya</li>
@@ -58,11 +58,7 @@ const Footer = () => {
               <ul class="list-unstyled mb-0">
                 <li className="title-contact">Copyright Ketemu Enak 2023</li>
                 <li>
-                  <a
-                    className="copyrights"
-                    href="/"
-                    style={{ color: "black", textDecoration: "none" }}
-                  >
+                  <a className="copyrights" href="/" style={{ color: "black", textDecoration: "none" }}>
                     Ketemu Enak
                   </a>
                 </li>
