@@ -4,15 +4,13 @@ import useGetApi from "../../hooks/useGetApi";
 
 const UpcomingEvent = () => {
   const [eventData, setEventData] = useState([]);
-  const { data, isLoading, error } = useGetApi("events");
+  const { apiResponse, isLoading, error } = useGetApi("events");
 
   useEffect(() => {
-    if (data) {
-      // Lakukan sesuatu dengan data yang diperoleh dari API
-      setEventData(data);
-      console.log(eventData);
+    if (apiResponse) {
+      setEventData(apiResponse);
     }
-  }, [data]);
+  }, [apiResponse]);
 
   return (
     <div className="flex flex-col mt-6 sm:mt-7 md:mt-8 lg:mt-9">
@@ -25,6 +23,7 @@ const UpcomingEvent = () => {
           .map((event) => (
             <EventCard
               key={event.id}
+              id={event.id}
               title={event.title}
               img={event.img_url}
               eventDate={event.time}

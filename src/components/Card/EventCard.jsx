@@ -5,8 +5,11 @@ import { IoLocationOutline } from "react-icons/io5";
 import ModalDetailEvent from "../Modals/ModalDetailEvent";
 import ConvertDate from "../../utils/ConvertDate";
 import { CustomTheme } from "../../themes/theme";
+import axios from "axios";
+import { ApiUrl } from "../../config/ApiUrl";
 
 const EventCard = ({
+  id,
   isRegistered,
   img,
   title,
@@ -16,6 +19,14 @@ const EventCard = ({
   city,
 }) => {
   const [openModal, setOpenModal] = useState(false);
+  const token = localStorage.getItem("token");
+
+  const handleClickDaftar = () => {
+    axios.get(`${ApiUrl}/seller/events/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  };
+
   return (
     <Card imgSrc={img}>
       <div className="flex flex-col mb-1">
@@ -48,14 +59,21 @@ const EventCard = ({
         <Button color="light" onClick={() => setOpenModal(true)}>
           Detail
         </Button>
-        <Button
-          disabled={isRegistered}
-          theme={CustomTheme.button}
-          color="primary">
-          {isRegistered ? "Terdaftar" : "Daftar"}
-        </Button>
+        {isRegistered ? (
+          <Button disabled={true} theme={CustomTheme.button} color="primary">
+            Terdaftar
+          </Button>
+        ) : (
+          <Button
+            theme={CustomTheme.button}
+            color="primary"
+            onClick={handleClickDaftar}>
+            Daftar
+          </Button>
+        )}
       </div>
       <ModalDetailEvent
+        handleClickDaftar={handleClickDaftar}
         openModal={openModal}
         setOpenModal={setOpenModal}
         title={title}

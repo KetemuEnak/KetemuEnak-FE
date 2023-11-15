@@ -3,7 +3,7 @@ import axios from "axios";
 import { ApiUrl } from "../config/ApiUrl";
 
 const useGetApi = (url) => {
-  const [data, setData] = useState([]);
+  const [apiResponse, setApiResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
@@ -15,7 +15,7 @@ const useGetApi = (url) => {
         const response = await axios.get(`${ApiUrl}/${url}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setData(response.data);
+        setApiResponse(response.data);
       } catch (error) {
         setError(error.message || "An error occurred");
         return { response: null, data: null, error };
@@ -27,7 +27,7 @@ const useGetApi = (url) => {
     getData();
   }, [url]);
 
-  return { data, isLoading, error };
+  return { apiResponse, isLoading, error };
 };
 
 export default useGetApi;

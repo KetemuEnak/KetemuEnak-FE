@@ -14,6 +14,7 @@ const ModalDetailEvent = ({
   city,
   desc,
   isRegistered,
+  handleClickDaftar,
 }) => {
   return (
     <Modal
@@ -46,13 +47,18 @@ const ModalDetailEvent = ({
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          disabled={isRegistered}
-          onClick={() => setOpenModal(false)}
-          theme={CustomTheme.button}
-          color="primary">
-          {isRegistered ? "Terdaftar" : "Daftar"}
-        </Button>
+        {isRegistered ? (
+          <Button disabled={true} theme={CustomTheme.button} color="primary">
+            Terdaftar
+          </Button>
+        ) : (
+          <Button
+            theme={CustomTheme.button}
+            color="primary"
+            onClick={handleClickDaftar}>
+            Daftar
+          </Button>
+        )}
         <Button color="gray" onClick={() => setOpenModal(false)}>
           Batal
         </Button>

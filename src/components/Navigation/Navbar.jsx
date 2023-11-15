@@ -5,7 +5,7 @@ import { EventContext } from "../../pages/Event";
 import { SellerContext } from "../../pages/Seller";
 
 const Navbar = ({ isSeller }) => {
-  const { userDatas } = useContext(isSeller ? SellerContext : EventContext);
+  const { userData } = useContext(isSeller ? SellerContext : EventContext);
 
   return (
     <header className="flex items-center content-center w-full h-20 md:h-24 lg:h-28">
@@ -15,7 +15,7 @@ const Navbar = ({ isSeller }) => {
         </h1>
         <div className="flex items-center h-full gap-x-2 sm:gap-x-3 md:gap-x-4 lg:gap-x-5">
           <Searchbar />
-          <Profilebar avatar={userDatas.avatar} />
+          <Profilebar avatar={userData.avatar} />
         </div>
       </nav>
     </header>
