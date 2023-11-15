@@ -31,6 +31,7 @@ const CreateEvent = () => {
     Deskripsi: null,
     Kuota: 0,
     HargaTiket: null,
+    website:null
   });
 
   // React.useEffect(()=>{
@@ -60,12 +61,12 @@ const CreateEvent = () => {
   // },[])
 
   const handleIncrement = () => {
-    setFormData({ ...formData, Kuota: formData.Kuota+1 });
+    setFormData({ ...formData, Kuota: formData.Kuota+10 });
   };
 
   const handleDecrement = () => {
     if (formData.Kuota > 1) {
-      setFormData({ ...formData, Kuota: formData.Kuota-1 });
+      setFormData({ ...formData, Kuota: formData.Kuota-10 });
     }
   };
 
@@ -126,12 +127,13 @@ const CreateEvent = () => {
           time: formData.tanggalEvent,
           status: formData.status,
           city: formData.kotaEvent,
-          url_website: formData.LinkGmaps,
+          alamat: formData.LinkGmaps,
           description: formData.description,
-          max_seller: formData.Kuota,
-          tiket_price: formData.HargaTiket,
+          max_seller: Number(formData.Kuota),
+          tiket_price: Number(formData.HargaTiket),
           is_publish: true,
-          published_at: dateNow
+          published_at: dateNow,
+          url_website: formData.website
         };
         console.log(JSON.stringify(formValues, null, 2));
         const response = await fetch(apiUrl, {
@@ -443,6 +445,19 @@ const CreateEvent = () => {
                               onChange={handleFormChange}
                             />
                           </Form.Group>
+                          <Form.Group className="mb-3" controlId="formWebsite">
+                            <Form.Label>
+                              Link Website
+                              <span style={{ color: "red" }}>*</span>
+                            </Form.Label>
+                            <Form.Control
+                              required 
+                              disabled={isDone ? true : false}
+                              name="website"
+                              value={formData.website}
+                              onChange={handleFormChange}
+                            />
+                          </Form.Group>
                           <Form.Group
                             controlId="formDescription"
                             className="mb-3"
@@ -461,7 +476,7 @@ const CreateEvent = () => {
                               onChange={handleFormChange}
                             />
                           </Form.Group>
-                          <Form.Group className="mb-3" controlId="formEmail">
+                          <Form.Group className="mb-3" controlId="formKuota">
                             <Form.Label>
                               Kuota Seller
                               <span style={{ color: "red" }}>*</span>
@@ -482,7 +497,7 @@ const CreateEvent = () => {
                               </Button>
                               <FormControl
                                 style={{ color: "rgb(0,0,0,0.7)" }}
-                                name="LinkGmaps"
+                                name="kuota"
                                 value={formData.Kuota}
                                 onChange={handleFormChangeKuota}
                                 disabled={isDone ? true : false}
