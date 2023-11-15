@@ -17,6 +17,7 @@ const EventCard = ({
   location,
   desc,
   city,
+  url_website,
   updateData,
 }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -89,6 +90,7 @@ const EventCard = ({
         eventDate={eventDate}
         location={location}
         desc={desc}
+        url_website={url_website}
         city={city}
       />
     </Card>

@@ -3,8 +3,10 @@ import { BsCalendar3 } from "react-icons/bs";
 import { IoLocationOutline } from "react-icons/io5";
 import ConvertDate from "../../utils/ConvertDate";
 import { CustomTheme } from "../../themes/theme";
+import { GlobeAltIcon } from "@heroicons/react/24/outline";
 
 const ModalDetailEvent = ({
+  url_website,
   openModal,
   setOpenModal,
   img,
@@ -43,6 +45,18 @@ const ModalDetailEvent = ({
                   rel="noopener noreferrer"
                   className="font-normal text-gray-700">
                   {city}
+                </a>
+              </div>
+            </Tooltip>
+            <Tooltip content="Lokasi" placement="bottom">
+              <div className="flex items-center content-center gap-x-2">
+                <GlobeAltIcon className="w-5 h-5 block text-gray-700" />
+                <a
+                  href={url_website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-normal text-gray-700">
+                  {url_website}
                 </a>
               </div>
             </Tooltip>
