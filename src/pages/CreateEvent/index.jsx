@@ -122,7 +122,8 @@ const CreateEvent = () => {
       try {
         const dateNow = new Date()
         const formValues = {
-          img_url: formData.foto,
+          // img_url: formData.foto,
+          img_url: "https://www.flowbite-react.com/images/blog/image-1.jpg",
           title: formData.namaEvent,
           time: formData.tanggalEvent,
           status: formData.status,
@@ -130,7 +131,7 @@ const CreateEvent = () => {
           alamat: formData.LinkGmaps,
           description: formData.description,
           max_seller: Number(formData.Kuota),
-          tiket_price: Number(formData.HargaTiket),
+          ticket_price: Number(formData.HargaTiket),
           is_publish: true,
           published_at: dateNow,
           url_website: formData.website
