@@ -32,7 +32,7 @@ function ProfileEO() {
                 <p className="text-base text-black font-medium font-serif text-[18px]">{profile.contact_number}</p>
               </div>
               <div className="mb-6">
-                <p className="text-base text-gray-600 font-serif text-[18px]">Social Media</p>
+                <p className="text-base text-gray-600 font-serif text-[18px]">Situs</p>
                 <Link className="text-base text-black font-medium font-serif text-[18px]" to={profile.website_link}>
                   {profile.website_link}
                 </Link>
