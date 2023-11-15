@@ -44,6 +44,7 @@ const RegisteredEvent = ({
               location={event.alamat}
               desc={event.description}
               city={event.city}
+              url_website={event.url_website}
             />
           ))}
       </div>

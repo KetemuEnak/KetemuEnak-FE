@@ -4,12 +4,13 @@ import { useState } from "react";
 import ModalDetailSeller from "../Modals/ModalDetailSeller";
 import axios from "axios";
 import { ApiUrl } from "../../config/ApiUrl";
-import { faCropSimple } from "@fortawesome/free-solid-svg-icons";
 
 const SellerCard = ({
   idEO,
   idEvent,
   idSeller,
+  socmed_or_web_url,
+  contact,
   img,
   avatar,
   name,
@@ -70,6 +71,8 @@ const SellerCard = ({
         desc={desc}
         handleClickApprove={handleClickApprove}
         handleClickReject={handleClickReject}
+        socmed_or_web_url={socmed_or_web_url}
+        contact={contact}
       />
     </Card>
   );
