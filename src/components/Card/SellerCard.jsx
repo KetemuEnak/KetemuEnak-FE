@@ -2,9 +2,41 @@ import { Card, Avatar, Button } from "flowbite-react";
 import { CustomTheme } from "../../themes/theme";
 import { useState } from "react";
 import ModalDetailSeller from "../Modals/ModalDetailSeller";
+import axios from "axios";
+import { ApiUrl } from "../../config/ApiUrl";
+import { faCropSimple } from "@fortawesome/free-solid-svg-icons";
 
-const SellerCard = ({ img, avatar, name, city, desc }) => {
+const SellerCard = ({
+  idEO,
+  idEvent,
+  idSeller,
+  img,
+  avatar,
+  name,
+  city,
+  desc,
+}) => {
   const [openModal, setOpenModal] = useState(false);
+  const token = localStorage.getItem("token");
+
+  const handleClickApprove = () => {
+    axios
+      .put(`${ApiUrl}/eo/${idEO}/event/${idEvent}/${idSeller}/approve`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => console.log(response))
+      .catch((error) => console.error(error));
+  };
+
+  const handleClickReject = () => {
+    axios
+      .put(`${ApiUrl}/eo/${idEO}/event/${idEvent}/${idSeller}/reject`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => console.log(response))
+      .catch((error) => console.error(error));
+  };
+
   return (
     <Card theme={CustomTheme.card}>
       <div className="flex items-center">
@@ -21,8 +53,12 @@ const SellerCard = ({ img, avatar, name, city, desc }) => {
         <Button color="light" onClick={() => setOpenModal(true)}>
           Detail
         </Button>
-        <Button color="failure">Tolak</Button>
-        <Button color="success">Terima</Button>
+        <Button color="failure" onClick={handleClickReject}>
+          Tolak
+        </Button>
+        <Button color="success" onClick={handleClickApprove}>
+          Terima
+        </Button>
       </div>
       <ModalDetailSeller
         openModal={openModal}
@@ -32,6 +68,8 @@ const SellerCard = ({ img, avatar, name, city, desc }) => {
         img={img}
         name={name}
         desc={desc}
+        handleClickApprove={handleClickApprove}
+        handleClickReject={handleClickReject}
       />
     </Card>
   );

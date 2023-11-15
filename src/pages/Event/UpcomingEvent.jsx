@@ -2,15 +2,19 @@ import EventCard from "../../components/Card/EventCard";
 import { useState, useEffect } from "react";
 import useGetApi from "../../hooks/useGetApi";
 
-const UpcomingEvent = () => {
-  const [eventData, setEventData] = useState([]);
+const UpcomingEvent = ({
+  filteredData,
+  setUpcomingEvent,
+  dataChanged,
+  updateData,
+}) => {
   const { apiResponse, isLoading, error } = useGetApi("events");
 
   useEffect(() => {
     if (apiResponse) {
-      setEventData(apiResponse);
+      setUpcomingEvent(apiResponse);
     }
-  }, [apiResponse]);
+  }, [dataChanged, apiResponse]);
 
   return (
     <div className="flex flex-col mt-6 sm:mt-7 md:mt-8 lg:mt-9">
@@ -18,7 +22,7 @@ const UpcomingEvent = () => {
         Acara Mendatang
       </h1>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
-        {eventData
+        {filteredData
           .filter((event) => event.is_publish === true)
           .map((event) => (
             <EventCard
@@ -30,6 +34,7 @@ const UpcomingEvent = () => {
               location={event.alamat}
               desc={event.description}
               city={event.city}
+              updateData={updateData}
             />
           ))}
       </div>

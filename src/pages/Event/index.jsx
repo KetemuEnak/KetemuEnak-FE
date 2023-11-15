@@ -1,28 +1,43 @@
 import Navbar from "../../components/Navigation/Navbar";
 import FooterComponent from "../../components/Footer/Footer";
 import ProfileAlertEo from "../../components/Card/ProfileAlertEo";
-import data from "../../json/dummy.json";
-import { createContext } from "react";
 import RegisteredEvent from "./RegisteredEvent";
 import UpcomingEvent from "./UpcomingEvent";
-
-export const EventContext = createContext();
+import { useState, useReducer } from "react";
 
 const Event = () => {
-  const userData = data.user.event;
+  const [registeredData, setRegisteredData] = useState([]);
+  const [upcomingEvent, setUpcomingEvent] = useState([]);
+  const [dataChanged, updateData] = useReducer((x) => x + 1, 0);
+  const filteredData = upcomingEvent.filter(
+    (upcoming) =>
+      !registeredData.some((registered) => upcoming.id === registered.id)
+  );
+
+  console.log(filteredData);
 
   return (
-    <EventContext.Provider value={{ userData }}>
-      <Navbar isSeller={false} />
+    <>
+      <Navbar />
       <main className="flex flex-col mx-8">
         <div className="flex items-center justify-center my-6">
           <ProfileAlertEo />
         </div>
-        <RegisteredEvent />
-        <UpcomingEvent />
+        <RegisteredEvent
+          registeredData={registeredData}
+          setRegisteredData={setRegisteredData}
+          dataChanged={dataChanged}
+        />
+        <UpcomingEvent
+          upcomingEvent={upcomingEvent}
+          setUpcomingEvent={setUpcomingEvent}
+          filteredData={filteredData}
+          dataChanged={dataChanged}
+          updateData={updateData}
+        />
       </main>
       <FooterComponent />
-    </EventContext.Provider>
+    </>
   );
 };
 

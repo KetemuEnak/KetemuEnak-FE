@@ -3,7 +3,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { ApiUrl } from "../../config/ApiUrl";
 
-const RegisteredEvent = () => {
+const RegisteredEvent = ({
+  registeredData,
+  setRegisteredData,
+  dataChanged,
+}) => {
   const [eventData, setEventData] = useState([]);
   const token = localStorage.getItem("token");
 
@@ -14,12 +18,13 @@ const RegisteredEvent = () => {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
+          setRegisteredData(response.data.data);
           setEventData(response.data.data);
         })
         .catch((error) => console.error(error));
     };
     getData();
-  }, []);
+  }, [dataChanged]);
 
   return (
     <div className="flex flex-col mt-6 sm:mt-7 md:mt-8 lg:mt-9">
@@ -31,6 +36,7 @@ const RegisteredEvent = () => {
           .filter((event) => event.is_publish === true)
           .map((event) => (
             <EventCard
+              isRegistered={true}
               key={event.id}
               title={event.title}
               img={event.img_url}

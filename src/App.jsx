@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Event from "./pages/Event";
-import PotentialSeller from "./pages/Seller";
+import Seller from "./pages/Seller";
+import ListSeller from "./pages/Seller/ListSeller";
 import HomePage from "./pages/HomePage";
 import DetailEvent from "./pages/DetailPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -23,7 +24,8 @@ function App() {
         <Route path="/signup-eo" element={<FormSignUpEo />} />
         <Route path="/signup-seller" element={<FormSignUp />} />
         <Route path="/seller" element={<Event />} />
-        <Route path="/event" element={<PotentialSeller />} />
+        <Route path="/event" element={<Seller />} />
+        <Route path="/event/:idEvent" element={<ListSeller />} />
         <Route path="/list-event" element={<HomePage />} />
         <Route path="/events/:eventId" element={<DetailEvent />} />
         <Route path="/profile/:profileId" element={<ProfilePage />} />
