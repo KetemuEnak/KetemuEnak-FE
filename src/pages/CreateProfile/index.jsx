@@ -218,7 +218,7 @@ const ProfileForm = () => {
       const formValues = {
         img_url: formDataEo.fotoProfile,
         name: formDataEo.namaCompany,
-        contact: formDataEo.phoneNumber,
+        contact: Number(formDataEo.phoneNumber),
         description: formDataEo.deskripsiCompany,
         role: 'eo',
         address: formDataEo.alamat,
