@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import NavbarAll from "../PageComponent/NavbarAll";
 import Footer from "../PageComponent/Footer";
+import isUrl from "../../utils/CekUrl";
 
 function DetailContent() {
   const { eventId } = useParams();
@@ -27,7 +28,6 @@ function DetailContent() {
       currency: "IDR",
     }).format(number);
   };
-
   const [event, setEvent] = useState([]);
   const [notEvent, setNotEvent] = useState(false);
 
@@ -73,7 +73,7 @@ function DetailContent() {
               <div className="py-3 ">
                 <div className=" items-center space-x-4">
                   <div className="bg-[#EAD7BB] flex flex-col items-center mx-3 sm:mx-6 min-w-0 md:min-w-[850px] md:mx-auto md:mb-6 lg:py-0 mb-10 md:h-[300px]">
-                    <img className="h-full py-3 px-4" src={event.img_url || EventImage} alt="logo" />
+                    <img className="h-full py-3 px-4" src={isUrl(event.img_url) ? event.img_url : EventImage} alt="logo" />
                   </div>
                   <div className="min-w-0 text-start">
                     <div className="my-3 pointer-events-none">
