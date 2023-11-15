@@ -4,6 +4,8 @@ import EventImage from "/src/components/assets/image.png";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import NavbarAll from "../PageComponent/NavbarAll";
+import Footer from "../PageComponent/Footer";
+import isUrl from "../../utils/CekUrl";
 
 function DetailContent() {
   const { eventId } = useParams();
@@ -20,12 +22,18 @@ function DetailContent() {
     return `${day} ${month} ${year}`;
   };
 
+  const rupiah = (number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(number);
+  };
   const [event, setEvent] = useState([]);
   const [notEvent, setNotEvent] = useState(false);
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/${eventId}`)
+      .get(`${import.meta.env.VITE_API_URL}/events/${eventId}`)
       .then((response) => {
         setEvent(response.data);
       })
@@ -53,62 +61,76 @@ function DetailContent() {
   }
 
   return (
-    <div className="my-14 px-4 sm:px-6 lg:px-14">
-      <NavbarAll />
-      <div className="mx-auto max-w-screen-xl lg:py-3 mt-5">
-        <div className="md:flex md:justify-center">
-          <ul className="max-w-[900px] pr-4 divide-y divide-black dark:divide-gray-700">
-            <li className="mb-4">
-              <h1 className="text-black font-bold text-4xl ml-10">{event.title}</h1>
-            </li>
-            <div className="py-3 min max-h-[1300px]">
-              <div className=" items-center space-x-4">
-                <div className="bg-[#EAD7BB] flex flex-col items-center mx-3 sm:mx-6 min-w-0 md:min-w-[850px] md:mx-auto md:mb-6 lg:py-0 mb-10 md:h-[300px]">
-                  <img className="h-full py-3 px-4" src={event.img_url || EventImage} alt="logo" />
-                </div>
-                <div className="min-w-0 text-start">
-                  <div className="my-3">
-                    <span className="text-white bg-[#C98411] focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2 mr-2 mb-2 focus:outline-none self-start">{event.city}</span>
+    <>
+      <div className="my-14 px-4 sm:px-6 lg:px-14">
+        <NavbarAll />
+        <div className="mx-auto max-w-screen-xl lg:py-3 mt-5">
+          <div className="md:flex md:justify-center">
+            <ul className="max-w-[900px] pr-4 divide-y divide-black dark:divide-gray-700">
+              <li className="mb-4">
+                <h1 className="text-black font-bold text-4xl ml-10">{event.title}</h1>
+              </li>
+              <div className="py-3 ">
+                <div className=" items-center space-x-4">
+                  <div className="bg-[#EAD7BB] flex flex-col items-center mx-3 sm:mx-6 min-w-0 md:min-w-[850px] md:mx-auto md:mb-6 lg:py-0 mb-10 md:h-[300px]">
+                    <img className="h-full py-3 px-4" src={isUrl(event.img_url) ? event.img_url : EventImage} alt="logo" />
                   </div>
-                  <table className=" table-auto ">
-                    <tbody>
-                      <tr>
-                        <td className="text-ls pr-3 font-semi-bold align-text-top text-gray-900 dark:text-white">Tanggal</td>
-                        <td className="align-text-top">:</td>
-                        <td className="text-ls font-semi-bold align-text-top text-gray-900 dark:text-white">{formatDate(event.time)}</td>
-                      </tr>
-                      <tr>
-                        <td className="text-ls font-semi-bold align-text-top text-gray-900 dark:text-white">Lokasi</td>
-                        <td className="align-text-top">:</td>
-                        <td className="text-ls font-semi-bold align-text-top text-gray-900 dark:text-white">
-                          <Link to={event.alamat} className="text-blue-700">
-                            {event.alamat}
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="text-ls font-semi-bold align-text-top text-gray-900 dark:text-white">Tiket</td>
-                        <td className="align-text-top">:</td>
-                        <td className="text-ls font-semi-bold align-text-top text-gray-900 dark:text-white">{event.ticket_price}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <p className=" text-sm mt-3 mb-3 md:mt-4 md:mb-6 text-gray-700 dark:text-gray-400 text-justify whitespace-pre-line">{event.description}</p>
-                  <div className="flex flex-col items-end">
-                    <Link
-                      to={"/list-event"}
-                      className="text-gray-900 bg-gradient-to-r from-red-200 via-red-400 to-yellow-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                    >
-                      Back to homepage
-                    </Link>
+                  <div className="min-w-0 text-start">
+                    <div className="my-3 pointer-events-none">
+                      <span className="text-white bg-[#C98411] focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2 mr-2 mb-2 focus:outline-none self-start">{event.city}</span>
+                    </div>
+                    <table className=" table-auto ">
+                      <tbody>
+                        <tr>
+                          <td className="text-ls pr-3 font-semi-bold align-text-top text-gray-900 dark:text-white">Tanggal</td>
+                          <td className="align-text-top px-1">:</td>
+                          <td className="text-ls font-semi-bold align-text-top text-gray-900 dark:text-white">{formatDate(event.time)}</td>
+                        </tr>
+                        <tr>
+                          <td className="text-ls font-semi-bold align-text-top text-gray-900 dark:text-white">Tiket</td>
+                          <td className="align-text-top px-1">:</td>
+                          <td className="text-ls font-semi-bold align-text-top text-gray-900 dark:text-white">{rupiah(event.ticket_price)}</td>
+                        </tr>
+                        <tr>
+                          <td className="text-ls font-semi-bold align-text-top text-gray-900 dark:text-white">Lokasi</td>
+                          <td className="align-text-top px-1">:</td>
+                          <td className="text-ls font-semi-bold align-text-top text-gray-900 dark:text-white">
+                            <Link to={event.alamat} className="text-blue-700">
+                              {event.alamat}
+                            </Link>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="text-ls font-semi-bold align-text-top text-gray-900 dark:text-white">Website</td>
+                          <td className="align-text-top px-1">:</td>
+                          <td className="text-ls font-semi-bold align-text-top text-gray-900 dark:text-white">
+                            <Link to={event.url_website} className="text-blue-700">
+                              {event.url_website || " "}
+                            </Link>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <p className=" text-sm mt-3 mb-3 md:mt-4 md:mb-6 md:mr-4 text-gray-700 dark:text-gray-400 text-justify whitespace-pre-line">{event.description}</p>
+                    <div className="flex flex-col items-end">
+                      <Link
+                        to={"/list-event"}
+                        className="text-gray-900 bg-gradient-to-r from-red-200 via-red-400 to-yellow-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                      >
+                        Back to homepage
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </ul>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
+      <div className=" bg-[#BCA37F] xl:mt-[-100px]">
+        <Footer />
+      </div>
+    </>
   );
 }
 
