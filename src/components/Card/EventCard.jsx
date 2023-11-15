@@ -7,6 +7,8 @@ import ConvertDate from "../../utils/ConvertDate";
 import { CustomTheme } from "../../themes/theme";
 import axios from "axios";
 import { ApiUrl } from "../../config/ApiUrl";
+import EventImage from "../assets/image.png";
+import CekUrl from "../../utils/CekUrl";
 
 const EventCard = ({
   id,
@@ -32,7 +34,7 @@ const EventCard = ({
   };
 
   return (
-    <Card imgSrc={img}>
+    <Card imgSrc={CekUrl(img) ? img : EventImage}>
       <div className="flex flex-col mb-1">
         <h5 className="mb-2 text-base font-bold tracking-tight text-gray-900 md:text-lg lg:text-xl">
           {title}

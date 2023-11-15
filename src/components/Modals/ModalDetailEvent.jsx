@@ -4,6 +4,8 @@ import { IoLocationOutline } from "react-icons/io5";
 import ConvertDate from "../../utils/ConvertDate";
 import { CustomTheme } from "../../themes/theme";
 import { GlobeAltIcon } from "@heroicons/react/24/outline";
+import CekUrl from "../../utils/CekUrl";
+import EventImage from "../assets/image.png";
 
 const ModalDetailEvent = ({
   url_website,
@@ -26,7 +28,11 @@ const ModalDetailEvent = ({
       <Modal.Header>{title}</Modal.Header>
       <Modal.Body>
         <div className="flex flex-col px-10 w-full">
-          <img src={img} alt="" className="w-96 mb-5 self-center rounded-lg" />
+          <img
+            src={CekUrl(img) ? img : EventImage}
+            alt=""
+            className="w-96 mb-5 self-center rounded-lg"
+          />
           <div className="flex flex-wrap gap-x-5 mb-7 justify-center">
             <Tooltip content="Waktu Pelaksanaan" placement="bottom">
               <div className="flex gap-x-1 items-center content-center">
