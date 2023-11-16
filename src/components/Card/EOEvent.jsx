@@ -1,14 +1,14 @@
-import { Card, Button, Tooltip } from "flowbite-react";
+import { Card, Tooltip } from "flowbite-react";
 import { BsCalendar3 } from "react-icons/bs";
 import { IoLocationOutline } from "react-icons/io5";
 import ConvertDate from "../../utils/ConvertDate";
+import CekUrl from "../../utils/CekUrl";
+import EventImage from "../assets/image.png";
 
 const EOEvent = ({ id, img, title, eventDate, location, desc, city }) => {
-  const token = localStorage.getItem("token");
-
   return (
     <a href={`/event/${id}`}>
-      <Card imgSrc={img}>
+      <Card imgSrc={CekUrl(img) ? img : EventImage}>
         <div className="flex flex-col mb-1">
           <h5 className="mb-2 text-base font-bold tracking-tight text-gray-900 md:text-lg lg:text-xl">
             {title}

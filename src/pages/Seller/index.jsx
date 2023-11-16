@@ -42,20 +42,29 @@ const Seller = () => {
           <h1 className="mb-6 text-lg font-bold md:text-xl lg:text-2xl">
             Acara Saya
           </h1>
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {eventData.map((event) => (
-              <EOEvent
-                key={event.id}
-                id={event.id}
-                title={event.title}
-                img={event.img_url}
-                eventDate={event.time}
-                location={event.alamat}
-                desc={event.description}
-                city={event.city}
-              />
-            ))}
-          </div>
+          {isLoading && (
+            <p className="font-normal text-gray-700 text-center">Loading...</p>
+          )}
+          {!isLoading && eventData.length === 0 ? (
+            <p className="font-normal text-gray-700 text-center">
+              Anda belum memiliki acara.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {eventData.map((event) => (
+                <EOEvent
+                  key={event.id}
+                  id={event.id}
+                  title={event.title}
+                  img={event.img_url}
+                  eventDate={event.time}
+                  location={event.alamat}
+                  desc={event.description}
+                  city={event.city}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </main>
       <FooterComponent />

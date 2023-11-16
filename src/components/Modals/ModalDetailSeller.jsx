@@ -1,6 +1,8 @@
 import { Button, Modal, Avatar } from "flowbite-react";
 import { CustomTheme } from "../../themes/theme";
 import { GlobeAltIcon, PhoneIcon } from "@heroicons/react/24/outline";
+import CekUrl from "../../utils/CekUrl";
+import EventImage from "../assets/image.png";
 
 const ModalDetailSeller = ({
   socmed_or_web_url,
@@ -23,10 +25,18 @@ const ModalDetailSeller = ({
       <Modal.Header>Detail</Modal.Header>
       <Modal.Body>
         <div className="flex flex-col px-10 w-full ">
-          <img src={img} alt="" className="w-96 mb-3 self-center rounded-lg" />
+          <img
+            src={CekUrl(img) ? img : EventImage}
+            alt=""
+            className="w-96 mb-3 self-center rounded-lg"
+          />
           <div className="flex items-center py-4 border-y border-solid border-gray-100 mb-3">
             <Avatar
-              img={avatar}
+              img={
+                CekUrl(avatar)
+                  ? avatar
+                  : "https://www.flowbite-react.com/images/people/profile-picture-1.jpg"
+              }
               theme={CustomTheme.avatar}
               size={"base"}
               rounded

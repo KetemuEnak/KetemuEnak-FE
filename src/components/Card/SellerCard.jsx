@@ -4,6 +4,7 @@ import { useState } from "react";
 import ModalDetailSeller from "../Modals/ModalDetailSeller";
 import axios from "axios";
 import { ApiUrl } from "../../config/ApiUrl";
+import CekUrl from "../../utils/CekUrl";
 
 const SellerCard = ({
   idEO,
@@ -41,7 +42,16 @@ const SellerCard = ({
   return (
     <Card theme={CustomTheme.card}>
       <div className="flex items-center">
-        <Avatar img={avatar} theme={CustomTheme.avatar} size={"base"} rounded />
+        <Avatar
+          img={
+            CekUrl(avatar)
+              ? avatar
+              : "https://www.flowbite-react.com/images/people/profile-picture-1.jpg"
+          }
+          theme={CustomTheme.avatar}
+          size={"base"}
+          rounded
+        />
         <div className="flex flex-col ml-4">
           <h3 className="font-medium text-base">{name}</h3>
           <p className="text-gray-500 text-sm">{city}</p>
