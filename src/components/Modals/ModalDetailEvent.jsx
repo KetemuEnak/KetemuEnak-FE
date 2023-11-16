@@ -54,18 +54,16 @@ const ModalDetailEvent = ({
                 </a>
               </div>
             </Tooltip>
-            <Tooltip content="Lokasi" placement="bottom">
-              <div className="flex items-center content-center gap-x-2">
-                <GlobeAltIcon className="w-5 h-5 block text-gray-700" />
-                <a
-                  href={url_website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-normal text-gray-700">
-                  {url_website}
-                </a>
-              </div>
-            </Tooltip>
+            <div className="flex items-center content-center gap-x-2">
+              <GlobeAltIcon className="w-5 h-5 block text-gray-700" />
+              <a
+                href={url_website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-normal text-gray-700">
+                {url_website}
+              </a>
+            </div>
           </div>
           <p className="font-normal text-gray-700 text-justify">{desc}</p>
         </div>

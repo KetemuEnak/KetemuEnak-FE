@@ -24,7 +24,6 @@ const Event = () => {
           <ProfileAlertEo />
         </div>
         <RegisteredEvent
-          registeredData={registeredData}
           setRegisteredData={setRegisteredData}
           dataChanged={dataChanged}
         />

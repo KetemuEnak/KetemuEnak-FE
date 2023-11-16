@@ -3,16 +3,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { ApiUrl } from "../../config/ApiUrl";
 
-const RegisteredEvent = ({
-  registeredData,
-  setRegisteredData,
-  dataChanged,
-}) => {
+const RegisteredEvent = ({ setRegisteredData, dataChanged }) => {
   const [eventData, setEventData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     const getData = async () => {
+      setIsLoading(true);
       axios
         .get(`${ApiUrl}/seller/events`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -21,7 +19,10 @@ const RegisteredEvent = ({
           setRegisteredData(response.data.data);
           setEventData(response.data.data);
         })
-        .catch((error) => console.error(error));
+        .catch((error) => console.error(error))
+        .finally(() => {
+          setIsLoading(false);
+        });
     };
     getData();
   }, [dataChanged]);
@@ -31,23 +32,32 @@ const RegisteredEvent = ({
       <h1 className="mb-6 text-lg font-bold md:text-xl lg:text-2xl">
         Acara Terdaftar
       </h1>
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
-        {eventData
-          .filter((event) => event.is_publish === true)
-          .map((event) => (
-            <EventCard
-              isRegistered={true}
-              key={event.id}
-              title={event.title}
-              img={event.img_url}
-              eventDate={event.time}
-              location={event.alamat}
-              desc={event.description}
-              city={event.city}
-              url_website={event.url_website}
-            />
-          ))}
-      </div>
+      {isLoading && (
+        <p className="font-normal text-gray-700 text-center">Loading...</p>
+      )}
+      {!isLoading && eventData.length === 0 ? (
+        <p className="font-normal text-gray-700 text-center">
+          Belum ada acara terdaftar
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {eventData
+            .filter((event) => event.is_publish === true)
+            .map((event) => (
+              <EventCard
+                isRegistered={true}
+                key={event.id}
+                title={event.title}
+                img={event.img_url}
+                eventDate={event.time}
+                location={event.alamat}
+                desc={event.description}
+                city={event.city}
+                url_website={event.url_website}
+              />
+            ))}
+        </div>
+      )}
     </div>
   );
 };

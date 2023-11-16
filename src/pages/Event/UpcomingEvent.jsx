@@ -1,5 +1,5 @@
 import EventCard from "../../components/Card/EventCard";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import useGetApi from "../../hooks/useGetApi";
 
 const UpcomingEvent = ({
@@ -21,24 +21,33 @@ const UpcomingEvent = ({
       <h1 className="mb-6 text-lg font-bold md:text-xl lg:text-2xl">
         Acara Mendatang
       </h1>
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
-        {filteredData
-          .filter((event) => event.is_publish === true)
-          .map((event) => (
-            <EventCard
-              key={event.id}
-              id={event.id}
-              title={event.title}
-              img={event.img_url}
-              eventDate={event.time}
-              location={event.alamat}
-              desc={event.description}
-              city={event.city}
-              url_website={event.url_website}
-              updateData={updateData}
-            />
-          ))}
-      </div>
+      {isLoading && (
+        <p className="font-normal text-gray-700 text-center">Loading...</p>
+      )}
+      {!isLoading && filteredData.length === 0 ? (
+        <p className="font-normal text-gray-700 text-center">
+          Belum ada acara yang tersedia
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {filteredData
+            .filter((event) => event.is_publish === true)
+            .map((event) => (
+              <EventCard
+                key={event.id}
+                id={event.id}
+                title={event.title}
+                img={event.img_url}
+                eventDate={event.time}
+                location={event.alamat}
+                desc={event.description}
+                city={event.city}
+                url_website={event.url_website}
+                updateData={updateData}
+              />
+            ))}
+        </div>
+      )}
     </div>
   );
 };
