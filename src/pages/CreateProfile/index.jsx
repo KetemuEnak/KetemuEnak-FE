@@ -18,6 +18,9 @@ const ProfileForm = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [responseMessage, setResponseMessage] = useState(null);
   const [error, setError] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrlBanner, setImageUrlBanner] = useState('');
+
 
   const [formData, setFormData] = useState({
     fotoProfile: null,
@@ -140,6 +143,26 @@ const ProfileForm = () => {
     if (selectedFile) {
       reader.readAsDataURL(selectedFile);
     }
+    if (selectedFile) {
+      const storageRef = ref(storage, `images/${selectedFile.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
+        },
+        (error) => {
+          console.error(error.message);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setImageUrl(downloadURL)
+        }
+      );
+    } else {
+      console.error('No file selected');
+    }
   };
 
   const handleImageBannerChangeShow = (event) => {
@@ -155,6 +178,26 @@ const ProfileForm = () => {
 
     if (selectedFile) {
       reader.readAsDataURL(selectedFile);
+    }
+    if (selectedFile) {
+      const storageRef = ref(storage, `images/${selectedFile.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
+        },
+        (error) => {
+          console.error(error.message);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setImageUrlBanner(downloadURL)
+        }
+      );
+    } else {
+      console.error('No file selected');
     }
   };
 
@@ -177,7 +220,7 @@ const ProfileForm = () => {
           address: formData.address,
           description: formData.description,
           city: formData.address,
-          img_url: formData.fotoProfile,
+          img_url: imageUrl,
           socmed_or_web_url: formData.linkSosmed,
           contact: Number(formData.contact),
           role: "seller",
@@ -208,7 +251,7 @@ const ProfileForm = () => {
       } else {
         event.preventDefault();
         const formValues = {
-          img_url: formDataEo.fotoProfile,
+          img_url: imageUrl,
           name: formDataEo.namaCompany,
           contact: Number(formDataEo.phoneNumber),
           description: formDataEo.deskripsiCompany,

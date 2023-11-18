@@ -12,12 +12,17 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navigation/Navbar";
 import FooterComponent from "../../components/Footer/Footer";
+import { storage } from '../../../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+
 
 const CreateEvent = () => {
   const navigate = useNavigate();
   const [image, setImage] = useState(null);
   const [isDone, setIsDone] = useState(false);
   const [error, setError] = useState(null);
+  const [imageSelected, setImageSelected] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
 
   const apiUrlBase = "https://ketemuenak.fly.dev";
   const id = localStorage.getItem("id");
@@ -36,32 +41,6 @@ const CreateEvent = () => {
     website: null,
   });
 
-  // React.useEffect(()=>{
-  //   const userData = {
-  //     foto: null,
-  //     namaEvent: null,
-  //     tanggalEvent: null,
-  //     status: "buka",
-  //     kotaEvent: null,
-  //     LinkGmaps: null,
-  //     Deskripsi: null,
-  //     Kuota: 0,
-  //     HargaTiket: null,
-  //   };
-  //   console.log(Object.keys(userData)[0])
-  //   for (var i = 0; i < Object.keys(userData).length; i++) {
-  //     const key = Object.keys(userData)[i];
-  //     const value = Object.values(userData)[i];
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       [key]: value
-  //     }));
-  //   }
-  //   if(userData.namaEvent !== null){
-  //     setIsDone(true)
-  //   }
-  // },[])
-
   const handleIncrement = () => {
     setFormData({ ...formData, Kuota: formData.Kuota + 10 });
   };
@@ -75,6 +54,9 @@ const CreateEvent = () => {
   const handleImageChangeShow = (event) => {
     const selectedFile = event.target.files[0];
     const reader = new FileReader();
+    if (event.target.files[0]) {
+      setImageSelected(event.target.files[0])
+    }
     setFormData({ ...formData, foto: selectedFile.name });
     reader.onload = () => {
       if (reader.readyState === 2) {
@@ -84,6 +66,27 @@ const CreateEvent = () => {
 
     if (selectedFile) {
       reader.readAsDataURL(selectedFile);
+    }
+
+    if (selectedFile) {
+      const storageRef = ref(storage, `images/${selectedFile.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
+        },
+        (error) => {
+          console.error(error.message);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setImageUrl(downloadURL)
+        }
+      );
+    } else {
+      console.error('No file selected');
     }
   };
 
@@ -96,24 +99,6 @@ const CreateEvent = () => {
     handleFormChange(event);
   };
 
-  // const handleSubmit = (event) => {
-  //   const formValues = {
-  //     foto: formData.foto,
-  //     namaEvent: formData.namaEvent,
-  //     tanggalEvent: formData.tanggalEvent,
-  //     status: formData.status,
-  //     kotaEvent: formData.kotaEvent,
-  //     LinkGmaps: formData.LinkGmaps,
-  //     Deskripsi: formData.Deskripsi,
-  //     Kuota: formData.Kuota,
-  //     HargaTiket: formData.HargaTiket,
-  //   };
-
-  //   // Log the form values in JSON format
-  //   console.log(JSON.stringify(formValues, null, 2));
-  //   event.preventDefault();
-  //   setIsDone((prev) => !prev);
-  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -122,7 +107,7 @@ const CreateEvent = () => {
         const dateNow = new Date();
         const formValues = {
           // img_url: formData.foto,
-          img_url: "https://www.flowbite-react.com/images/blog/image-1.jpg",
+          img_url: downloadURL,
           title: formData.namaEvent,
           time: formData.tanggalEvent,
           status: formData.status,
