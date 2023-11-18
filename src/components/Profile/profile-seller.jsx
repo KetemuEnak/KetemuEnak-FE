@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 import data from "/src/database/dummy.json";
+import Navbar from "../Navigation/Navbar";
+import FooterComponent from "../Footer/Footer";
 
 function ProfileSeller() {
   const { profileId } = useParams();
@@ -11,6 +13,7 @@ function ProfileSeller() {
 
   return (
     <>
+      <Navbar />
       <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="md:flex gap-6">
           <aside className="bg-[#faf3eb] xl:min-w-[350px] md:max-w-[400px] rounded-xl p-8 shadow-lg self-start">
@@ -55,6 +58,7 @@ function ProfileSeller() {
           </div>
         </div>
       </div>
+      <FooterComponent />
     </>
   );
 }
