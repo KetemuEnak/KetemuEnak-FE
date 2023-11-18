@@ -107,7 +107,7 @@ const CreateEvent = () => {
         const dateNow = new Date();
         const formValues = {
           // img_url: formData.foto,
-          img_url: downloadURL,
+          img_url: imageUrl,
           title: formData.namaEvent,
           time: formData.tanggalEvent,
           status: formData.status,
