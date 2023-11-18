@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import "./style.css";
-// import NavbarAll from "../../components/PageComponent/NavbarAll";
 import useFormInput from "../../hooks/useFormInput";
 import usePostApi from "../../hooks/usePostApi";
 import Navbar from "../../components/Navigation/Navbar";
 import FooterComponent from "../../components/Footer/Footer";
 
 const ProfileForm = () => {
-  const apiUrlBase = "https://ketemuenak.fly.dev";
+  const apiUrlBase = import.meta.env.VITE_API_URL;
   const id = localStorage.getItem("id");
   const apiUrl = `${apiUrlBase}/eo/${id}`;
 
@@ -246,23 +245,23 @@ const ProfileForm = () => {
     }
   };
   return (
-    <div class="my-app">
+    <div className="my-app">
       <main>
         <Navbar />
         {selectedUser === "seller" ? (
           <>
             <Form onSubmit={handleSubmit}>
-              <section class="my-app_body">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-4">
-                      <div class="my-card card">
-                        <div class="my-card_header card-header">
-                          <div class="my-card_header-title">
-                            <div class="my-text-overline ">Update Profile</div>
+              <section className="my-app_body">
+                <div className="container">
+                  <div className="row">
+                    <div className="col-4">
+                      <div className="my-card card">
+                        <div className="my-card_header card-header">
+                          <div className="my-card_header-title">
+                            <div className="my-text-overline ">Update Profile</div>
                           </div>
                         </div>
-                        <div class="my-card_body card-body-profile">
+                        <div className="my-card_body card-body-profile">
                           <Form.Group className="mb-3" controlId="formFoto">
                             <Form.Label>
                               Foto Profile
@@ -328,9 +327,9 @@ const ProfileForm = () => {
                             <Form.Control required disabled={isDone ? true : false} type="file" name="foto" accept=".jpg, .jpeg, .png" onChange={handleImageChangeShow} />
                           </Form.Group>
 
-                          <div class="my-text-overline">Besar file: maksimum 10.000.000 bytes (10 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</div>
+                          <div className="my-text-overline">Besar file: maksimum 10.000.000 bytes (10 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</div>
                         </div>
-                        <div class="my-card_body card-body-profile" style={{ marginTop: "-40px" }}>
+                        <div className="my-card_body card-body-profile" style={{ marginTop: "-40px" }}>
                           <Form.Group className="mb-3" controlId="formFoto">
                             <Form.Label>
                               Banner Dagangan
@@ -394,20 +393,20 @@ const ProfileForm = () => {
                             <Form.Control required disabled={isDone ? true : false} type="file" name="foto" accept=".jpg, .jpeg, .png" onChange={handleImageBannerChangeShow} />
                           </Form.Group>
 
-                          <div class="my-text-overline">Besar file: maksimum 10.000.000 bytes (10 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</div>
+                          <div className="my-text-overline">Besar file: maksimum 10.000.000 bytes (10 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</div>
                         </div>
                       </div>
                     </div>
 
-                    <div class="col-8">
-                      <div class="my-alert alert alert-info">
-                        <img class="my-alert_icon" src="./images/icon-alert.svg" alt="" />
-                        <span class="my-alert_text">Yuk lengkapi informasi daganganmu terlebih dahulu, agar masyarakat bisa lebih mengenal daganganmu!.</span>
+                    <div className="col-8">
+                      <div className="my-alert alert alert-info">
+                        <img className="my-alert_icon" src="./images/icon-alert.svg" alt="" />
+                        <span className="my-alert_text">Yuk lengkapi informasi daganganmu terlebih dahulu, agar masyarakat bisa lebih mengenal daganganmu!.</span>
                       </div>
-                      <div class="my-card card">
-                        <div class="my-card_header card-header">
-                          <h3 class="my-card_header-title card-title">General Information</h3>
-                          {/* <a class="my-card_header-link" href="/">
+                      <div className="my-card card">
+                        <div className="my-card_header card-header">
+                          <h3 className="my-card_header-title card-title">General Information</h3>
+                          {/* <a className="my-card_header-link" href="/">
                       See all →
                     </a> */}
                         </div>
@@ -436,13 +435,13 @@ const ProfileForm = () => {
                             <Form.Control required disabled={isDone ? true : false} as="textarea" rows={3} name="description" value={formData.description} onChange={handleFormChange} />
                           </Form.Group>
                         </div>
-                        <div class="my-card_header card-header">
-                          <h3 class="my-card_header-title card-title">Address</h3>
-                          {/* <a class="my-card_header-link" href="#dsa">
+                        <div className="my-card_header card-header">
+                          <h3 className="my-card_header-title card-title">Address</h3>
+                          {/* <a className="my-card_header-link" href="#dsa">
                         See all →
                       </a> */}
                         </div>
-                        <div class="form-profile-all">
+                        <div className="form-profile-all">
                           <Form.Group className="mb-3" controlId="formContact">
                             <Form.Label>
                               Contact<span style={{ color: "red" }}>*</span>
@@ -487,17 +486,17 @@ const ProfileForm = () => {
         ) : (
           <>
             <Form onSubmit={handleSubmit}>
-              <section class="my-app_body">
-                <div class="container" style={{ marginTop: 100 }}>
-                  <div class="row">
-                    <div class="col-4">
-                      <div class="my-card card">
-                        <div class="my-card_header card-header">
-                          <div class="my-card_header-title">
-                            <div class="my-text-overline ">Update Profile</div>
+              <section className="my-app_body">
+                <div className="container" style={{ marginTop: 100 }}>
+                  <div className="row">
+                    <div className="col-4">
+                      <div className="my-card card">
+                        <div className="my-card_header card-header">
+                          <div className="my-card_header-title">
+                            <div className="my-text-overline ">Update Profile</div>
                           </div>
                         </div>
-                        <div class="my-card_body card-body-profile">
+                        <div className="my-card_body card-body-profile">
                           <div
                             style={{
                               marginTop: "20px",
@@ -563,20 +562,20 @@ const ProfileForm = () => {
                             <Form.Control required disabled={isDone ? true : false} type="file" name="foto" accept=".jpg, .jpeg, .png" onChange={handleImageChangeShow} />
                           </Form.Group>
 
-                          <div class="my-text-overline">Besar file: maksimum 10.000.000 bytes (10 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</div>
+                          <div className="my-text-overline">Besar file: maksimum 10.000.000 bytes (10 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</div>
                         </div>
                       </div>
                     </div>
 
-                    <div class="col-8">
-                      <div class="my-alert alert alert-info">
-                        <img class="my-alert_icon" src="./images/icon-alert.svg" alt="" />
-                        <span class="my-alert_text">Your latest transaction may take a few minutes to show up in your activity.</span>
+                    <div className="col-8">
+                      <div className="my-alert alert alert-info">
+                        <img className="my-alert_icon" src="./images/icon-alert.svg" alt="" />
+                        <span className="my-alert_text">Your latest transaction may take a few minutes to show up in your activity.</span>
                       </div>
-                      <div class="my-card card">
-                        <div class="my-card_header card-header">
-                          <h3 class="my-card_header-title card-title">General Information</h3>
-                          {/* <a class="my-card_header-link" href="/">
+                      <div className="my-card card">
+                        <div className="my-card_header card-header">
+                          <h3 className="my-card_header-title card-title">General Information</h3>
+                          {/* <a className="my-card_header-link" href="/">
                       See all →
                     </a> */}
                         </div>
@@ -608,13 +607,13 @@ const ProfileForm = () => {
                             <Form.Control required disabled={isDone ? true : false} as="textarea" rows={3} name="deskripsiCompany" value={formDataEo.deskripsiCompany} onChange={handleFormChange} />
                           </Form.Group>
                         </div>
-                        <div class="my-card_header card-header">
-                          <h3 class="my-card_header-title card-title">Address</h3>
-                          {/* <a class="my-card_header-link" href="#dsa">
+                        <div className="my-card_header card-header">
+                          <h3 className="my-card_header-title card-title">Address</h3>
+                          {/* <a className="my-card_header-link" href="#dsa">
                         See all →
                       </a> */}
                         </div>
-                        <div class="form-profile-all">
+                        <div className="form-profile-all">
                           <Form.Group className="mb-3" controlId="formAddress">
                             <Form.Label>
                               Alamat<span style={{ color: "red" }}>*</span>
