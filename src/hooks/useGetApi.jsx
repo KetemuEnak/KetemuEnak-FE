@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { ApiUrl } from "../config/ApiUrl";
 
 const useGetApi = (url) => {
   const [apiResponse, setApiResponse] = useState([]);
@@ -12,7 +11,7 @@ const useGetApi = (url) => {
     const getData = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`${ApiUrl}/${url}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/${url}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setApiResponse(response.data);

@@ -60,6 +60,8 @@ function DetailContent() {
     );
   }
 
+  console.log(event);
+
   return (
     <>
       <div className="my-14 px-4 sm:px-6 lg:px-14">
