@@ -8,7 +8,7 @@ import FooterComponent from "../Footer/Footer";
 
 function Profile() {
   const defaultAvatar = "https://www.flowbite-react.com/images/people/profile-picture-1.jpg";
-  const defaultBanner = "https://i.pinimg.com/564x/a2/82/e1/a282e1dd7d8ecac071e1e7f44a713c0b.jpg";
+  const defaultBanner = "https://i.pinimg.com/564x/97/a3/35/97a3355f61ebf2d188ad02788632ca60.jpg";
 
   const [profiles, setProfiles] = useState([]);
   const { profileId } = useParams();
