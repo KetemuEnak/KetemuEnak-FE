@@ -9,9 +9,9 @@ const Banner = () => {
     <>
       <div className="container-banner-all">
         <div id="overlay"></div>
-        <section class="overlay-section">
+        <section className="overlay-section">
           <div className="text" style={{ width: 1320 }}>
-            <h1 style={{fontSize:"40px", fontWeight:"650"}}>
+            <h1 style={{ fontSize: "40px", fontWeight: "650" }}>
               Temukan Event Bazaar & Festival Kuliner <br /> yang ada di Seluruh
               Indonesia.
             </h1>
@@ -20,9 +20,8 @@ const Banner = () => {
                 fontSize: 16,
                 fontWeight: "bolders",
                 marginBottom: 20,
-                marginTop:20
-              }}
-            >
+                marginTop: 20,
+              }}>
               Selamat datang di Ketemu Enak. <br /> Yuk, Jadi Pahlwan UMKM.
               Dukung UMKM Kuliner di seluruh Indonesia.
             </h6>
@@ -31,8 +30,7 @@ const Banner = () => {
                 onClick={() => {
                   return navigate("/list-event");
                 }}
-                className="cari-event-button"
-              >
+                className="cari-event-button">
                 Mulai Cari Event
               </button>
             </div>

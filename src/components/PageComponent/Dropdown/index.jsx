@@ -22,14 +22,12 @@ export const DropdownBottom = ({ faq, answer }) => {
           id="triggerId"
           data-toggle="dropdown"
           aria-haspopup="true"
-          aria-expanded="false"
-        >
+          aria-expanded="false">
           {faq}{" "}
           <i
             style={{ float: "right", paddingRight: 10 }}
-            class={chevron}
-            aria-hidden="true"
-          ></i>
+            className={chevron}
+            aria-hidden="true"></i>
         </button>
         {question && (
           <div>
@@ -61,8 +59,7 @@ const Dropdown = ({ faq, answer }) => {
           id="triggerId"
           data-toggle="dropdown"
           aria-haspopup="true"
-          aria-expanded="false"
-        >
+          aria-expanded="false">
           <span className="text-border-question">
             {faq}{" "}
             <i
@@ -71,9 +68,8 @@ const Dropdown = ({ faq, answer }) => {
                 paddingRight: 10,
                 transition: "1s",
               }}
-              class={chevron}
-              aria-hidden="true"
-            ></i>
+              className={chevron}
+              aria-hidden="true"></i>
           </span>
         </button>
         {question && (
@@ -82,8 +78,7 @@ const Dropdown = ({ faq, answer }) => {
               question
                 ? { animation: "inAnimation 1s" }
                 : { animation: "outAnimation 1s" }
-            }
-          >
+            }>
             <p className="dropdown-answer">{answer}</p>
           </div>
         )}
@@ -91,7 +86,7 @@ const Dropdown = ({ faq, answer }) => {
           style={{
             color: "black",
             height: 1,
-            width: "auto"
+            width: "auto",
           }}
         />
       </div>
