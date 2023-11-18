@@ -1,22 +1,27 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import "./style.css";
-import NavbarAll from "../../components/PageComponent/NavbarAll";
 import useFormInput from "../../hooks/useFormInput";
 import usePostApi from "../../hooks/usePostApi";
+import Navbar from "../../components/Navigation/Navbar";
+import FooterComponent from "../../components/Footer/Footer";
+import { storage } from '../../../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 const ProfileForm = () => {
-  const apiUrlBase = "https://ketemuenak.fly.dev"
-  const id = localStorage.getItem('id');
+  const apiUrlBase = import.meta.env.VITE_API_URL;
+  const id = localStorage.getItem("id");
   const apiUrl = `${apiUrlBase}/eo/${id}`;
 
-  const [data, setData] = useState(null)
+  const [data, setData] = useState(null);
   const [image, setImage] = useState(null);
   const [imageBanner, setImageBanner] = useState(null);
   const [isDone, setIsDone] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [responseMessage, setResponseMessage] = useState(null);
   const [error, setError] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrlBanner, setImageUrlBanner] = useState('');
 
 
   const [formData, setFormData] = useState({
@@ -40,15 +45,15 @@ const ProfileForm = () => {
     linkSosmed: null,
   });
 
-  React.useEffect(()=>{
-    const user = localStorage.getItem('role');
-    const token = localStorage.getItem('token');
-    const headers = { 'Authorization': `Bearer ${token}` };
-    setSelectedUser(user)
-    if(user==="seller"){  
+  React.useEffect(() => {
+    const user = localStorage.getItem("role");
+    const token = localStorage.getItem("token");
+    const headers = { Authorization: `Bearer ${token}` };
+    setSelectedUser(user);
+    if (user === "seller") {
       const fetchData = async () => {
         try {
-          const response = await fetch(apiUrl , {headers});
+          const response = await fetch(apiUrl, { headers });
           if (response.ok) {
             const result = await response.json();
             setData(result);
@@ -62,17 +67,17 @@ const ProfileForm = () => {
               linkSosmed: result[0].socmed_or_web_url,
               description: result[0].description,
             };
-            console.log(profileData)
+            console.log(profileData);
             for (var i = 0; i < Object.keys(profileData).length; i++) {
               const key = Object.keys(profileData)[i];
               const value = Object.values(profileData)[i];
               setFormData((prevData) => ({
                 ...prevData,
-                [key]: value
+                [key]: value,
               }));
             }
-            if(profileData.namaToko !== null){
-              setIsDone(true)
+            if (profileData.namaToko !== null) {
+              setIsDone(true);
             }
           } else {
             throw new Error(`Failed to fetch data: ${response.statusText}`);
@@ -82,14 +87,14 @@ const ProfileForm = () => {
         }
       };
       fetchData();
-    }else{
+    } else {
       const fetchData = async () => {
         try {
           const response = await fetch(apiUrl);
           if (response.ok) {
             const result = await response.json();
             setData(result);
-            console.log(result[0])
+            console.log(result[0]);
             const profileData = {
               fotoProfile: result[0].img_url,
               namaCompany: result[0].name,
@@ -99,17 +104,17 @@ const ProfileForm = () => {
               email: result[0].email,
               linkSosmed: result[0].socmed_or_web_url,
             };
-            console.log(Object.keys(profileData)[0])
+            console.log(Object.keys(profileData)[0]);
             for (var i = 0; i < Object.keys(profileData).length; i++) {
               const key = Object.keys(profileData)[i];
               const value = Object.values(profileData)[i];
               setFormDataEo((prevData) => ({
                 ...prevData,
-                [key]: value
+                [key]: value,
               }));
             }
-            if(profileData.namaCompany !== null){
-              setIsDone(true)
+            if (profileData.namaCompany !== null) {
+              setIsDone(true);
             }
           } else {
             throw new Error(`Failed to fetch data: ${response.statusText}`);
@@ -121,19 +126,15 @@ const ProfileForm = () => {
 
       fetchData();
     }
-
-  },[])
-
+  }, []);
 
   const handleImageChangeShow = (event) => {
     const selectedFile = event.target.files[0];
     const reader = new FileReader();
-    if(selectedUser==="seller"){
+    if (selectedUser === "seller") {
       setFormData({ ...formData, fotoProfile: selectedFile.name });
-    }
-    else{
+    } else {
       setFormDataEo({ ...formDataEo, fotoProfile: selectedFile.name });
-
     }
     reader.onload = () => {
       if (reader.readyState === 2) {
@@ -143,6 +144,26 @@ const ProfileForm = () => {
 
     if (selectedFile) {
       reader.readAsDataURL(selectedFile);
+    }
+    if (selectedFile) {
+      const storageRef = ref(storage, `images/${selectedFile.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
+        },
+        (error) => {
+          console.error(error.message);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setImageUrl(downloadURL)
+        }
+      );
+    } else {
+      console.error('No file selected');
     }
   };
 
@@ -160,47 +181,63 @@ const ProfileForm = () => {
     if (selectedFile) {
       reader.readAsDataURL(selectedFile);
     }
+    if (selectedFile) {
+      const storageRef = ref(storage, `images/${selectedFile.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
+        },
+        (error) => {
+          console.error(error.message);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setImageUrlBanner(downloadURL)
+        }
+      );
+    } else {
+      console.error('No file selected');
+    }
   };
 
-
   const handleFormChange = (event) => {
-    if(selectedUser==="seller"){
+    if (selectedUser === "seller") {
       const { name, value } = event.target;
       setFormData({ ...formData, [name]: value });
-    }
-    else{
+    } else {
       const { name, value } = event.target;
       setFormDataEo({ ...formDataEo, [name]: value });
     }
-
   };
 
-  const handleSubmit = async(event) => {
-    if(!isDone){
-      if(selectedUser==="seller"){
+  const handleSubmit = async (event) => {
+    if (!isDone) {
+      if (selectedUser === "seller") {
         event.preventDefault();
         const formValues = {
           name: formData.namaToko,
           address: formData.address,
           description: formData.description,
           city: formData.address,
-          img_url: formData.fotoProfile,
+          img_url: imageUrl,
           socmed_or_web_url: formData.linkSosmed,
           contact: Number(formData.contact),
-          role: 'seller',
+          role: "seller",
           email: formData.email,
         };
-        console.log(formValues)
+        console.log(formValues);
         try {
           const response = await fetch(apiUrl, {
-            method: 'PUT',
+            method: "PUT",
             headers: {
-              'Content-Type': 'application/json',
-  
+              "Content-Type": "application/json",
             },
             body: JSON.stringify(formValues),
           });
-    
+
           if (response.ok) {
             const result = await response.json();
             setResponseMessage(result.message);
@@ -211,67 +248,65 @@ const ProfileForm = () => {
           setError(error.message);
         }
         console.log(JSON.stringify(formValues, null, 2));
-  
+
         setIsDone((prev) => !prev);
-    }else{
-      event.preventDefault();
-      const formValues = {
-        img_url: formDataEo.fotoProfile,
-        name: formDataEo.namaCompany,
-        contact: Number(formDataEo.phoneNumber),
-        description: formDataEo.deskripsiCompany,
-        role: 'eo',
-        address: formDataEo.alamat,
-        email: formDataEo.email,
-        socmed_or_web_url: formDataEo.linkSosmed,
-      };
-      try {
-        const response = await fetch(apiUrl, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
+      } else {
+        event.preventDefault();
+        const formValues = {
+          img_url: imageUrl,
+          name: formDataEo.namaCompany,
+          contact: Number(formDataEo.phoneNumber),
+          description: formDataEo.deskripsiCompany,
+          role: "eo",
+          address: formDataEo.alamat,
+          email: formDataEo.email,
+          socmed_or_web_url: formDataEo.linkSosmed,
+        };
+        try {
+          const response = await fetch(apiUrl, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formValues),
+          });
 
-          },
-          body: JSON.stringify(formValues),
-        });
-  
-        if (response.ok) {
-          const result = await response.json();
-          setResponseMessage(result.message);
-        } else {
-          throw new Error(`Failed to make PUT request: ${response.statusText}`);
+          if (response.ok) {
+            const result = await response.json();
+            setResponseMessage(result.message);
+          } else {
+            throw new Error(`Failed to make PUT request: ${response.statusText}`);
+          }
+        } catch (error) {
+          setError(error.message);
         }
-      } catch (error) {
-        setError(error.message);
-      }
-      console.log(JSON.stringify(formValues, null, 2));
+        console.log(JSON.stringify(formValues, null, 2));
 
-      setIsDone((prev) => !prev);
-    }
-    } 
-    else{
+        setIsDone((prev) => !prev);
+      }
+    } else {
       event.preventDefault();
       setIsDone((prev) => !prev);
     }
   };
   return (
-    <div class="my-app">
+    <div className="my-app">
       <main>
-        <NavbarAll />
+        <Navbar />
         {selectedUser === "seller" ? (
           <>
             <Form onSubmit={handleSubmit}>
-              <section class="my-app_body">
-                <div class="container" style={{ marginTop: 100 }}>
-                  <div class="row">
-                    <div class="col-4">
-                      <div class="my-card card">
-                        <div class="my-card_header card-header">
-                          <div class="my-card_header-title">
-                            <div class="my-text-overline ">Update Profile</div>
+              <section className="my-app_body">
+                <div className="container">
+                  <div className="row">
+                    <div className="col-4">
+                      <div className="my-card card">
+                        <div className="my-card_header card-header">
+                          <div className="my-card_header-title">
+                            <div className="my-text-overline ">Update Profile</div>
                           </div>
                         </div>
-                        <div class="my-card_body card-body-profile">
+                        <div className="my-card_body card-body-profile">
                           <Form.Group className="mb-3" controlId="formFoto">
                             <Form.Label>
                               Foto Profile
@@ -334,26 +369,12 @@ const ProfileForm = () => {
                               </div>
                             </div>
 
-                            <Form.Control
-                              required
-                              disabled={isDone ? true : false}
-                              type="file"
-                              name="foto"
-                              accept=".jpg, .jpeg, .png"
-                              onChange={handleImageChangeShow}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} type="file" name="foto" accept=".jpg, .jpeg, .png" onChange={handleImageChangeShow} />
                           </Form.Group>
 
-                          <div class="my-text-overline">
-                            Besar file: maksimum 10.000.000 bytes (10
-                            Megabytes). Ekstensi file yang diperbolehkan: .JPG
-                            .JPEG .PNG
-                          </div>
+                          <div className="my-text-overline">Besar file: maksimum 10.000.000 bytes (10 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</div>
                         </div>
-                        <div
-                          class="my-card_body card-body-profile"
-                          style={{ marginTop: "-40px" }}
-                        >
+                        <div className="my-card_body card-body-profile" style={{ marginTop: "-40px" }}>
                           <Form.Group className="mb-3" controlId="formFoto">
                             <Form.Label>
                               Banner Dagangan
@@ -414,76 +435,41 @@ const ProfileForm = () => {
                               </div>
                             </div>
 
-                            <Form.Control
-                              required
-                              disabled={isDone ? true : false}
-                              type="file"
-                              name="foto"
-                              accept=".jpg, .jpeg, .png"
-                              onChange={handleImageBannerChangeShow}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} type="file" name="foto" accept=".jpg, .jpeg, .png" onChange={handleImageBannerChangeShow} />
                           </Form.Group>
 
-                          <div class="my-text-overline">
-                            Besar file: maksimum 10.000.000 bytes (10
-                            Megabytes). Ekstensi file yang diperbolehkan: .JPG
-                            .JPEG .PNG
-                          </div>
+                          <div className="my-text-overline">Besar file: maksimum 10.000.000 bytes (10 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</div>
                         </div>
                       </div>
                     </div>
 
-                    <div class="col-8">
-                      <div class="my-alert alert alert-info">
-                        <img
-                          class="my-alert_icon"
-                          src="./images/icon-alert.svg"
-                          alt=""
-                        />
-                        <span class="my-alert_text">
-                          Yuk lengkapi informasi daganganmu terlebih dahulu,
-                          agar masyarakat bisa lebih mengenal daganganmu!.
-                        </span>
+                    <div className="col-8">
+                      <div className="my-alert alert alert-info">
+                        <img className="my-alert_icon" src="./images/icon-alert.svg" alt="" />
+                        <span className="my-alert_text">Yuk lengkapi informasi daganganmu terlebih dahulu, agar masyarakat bisa lebih mengenal daganganmu!.</span>
                       </div>
-                      <div class="my-card card">
-                        <div class="my-card_header card-header">
-                          <h3 class="my-card_header-title card-title">
-                            General Information
-                          </h3>
-                          {/* <a class="my-card_header-link" href="/">
+                      <div className="my-card card">
+                        <div className="my-card_header card-header">
+                          <h3 className="my-card_header-title card-title">General Information</h3>
+                          {/* <a className="my-card_header-link" href="/">
                       See all →
                     </a> */}
                         </div>
 
                         <div className="form-profile-all">
-                          <Form.Group
-                            className="mb-3"
-                            controlId="formnamaToko"
-                          >
+                          <Form.Group className="mb-3" controlId="formnamaToko">
                             <Form.Label>
                               Nama Toko
                               <span style={{ color: "red" }}>*</span>
                             </Form.Label>
-                            <Form.Control
-                              required
-                              disabled={isDone ? true : false}
-                              name="namaToko"
-                              value={formData.namaToko}
-                              onChange={handleFormChange}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} name="namaToko" value={formData.namaToko} onChange={handleFormChange} />
                           </Form.Group>
 
                           <Form.Group className="mb-3" controlId="formAddress">
                             <Form.Label>
                               Address<span style={{ color: "red" }}>*</span>
                             </Form.Label>
-                            <Form.Control
-                              required
-                              disabled={isDone ? true : false}
-                              name="address"
-                              value={formData.address}
-                              onChange={handleFormChange}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} name="address" value={formData.address} onChange={handleFormChange} />
                           </Form.Group>
 
                           <Form.Group controlId="formDescription">
@@ -491,52 +477,28 @@ const ProfileForm = () => {
                               Deskripsi Dagangan
                               <span style={{ color: "red" }}>*</span>
                             </Form.Label>
-                            <Form.Control
-                              required
-                              disabled={isDone ? true : false}
-                              as="textarea"
-                              rows={3}
-                              name="description"
-                              value={formData.description}
-                              onChange={handleFormChange}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} as="textarea" rows={3} name="description" value={formData.description} onChange={handleFormChange} />
                           </Form.Group>
                         </div>
-                        <div class="my-card_header card-header">
-                          <h3 class="my-card_header-title card-title">
-                            Address
-                          </h3>
-                          {/* <a class="my-card_header-link" href="#dsa">
+                        <div className="my-card_header card-header">
+                          <h3 className="my-card_header-title card-title">Address</h3>
+                          {/* <a className="my-card_header-link" href="#dsa">
                         See all →
                       </a> */}
                         </div>
-                        <div class="form-profile-all">
+                        <div className="form-profile-all">
                           <Form.Group className="mb-3" controlId="formContact">
                             <Form.Label>
                               Contact<span style={{ color: "red" }}>*</span>
                             </Form.Label>
-                            <Form.Control
-                              required
-                              disabled={isDone ? true : false}
-                              name="contact"
-                              value={formData.contact}
-                              onChange={handleFormChange}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} name="contact" value={formData.contact} onChange={handleFormChange} />
                           </Form.Group>
 
                           <Form.Group className="mb-3" controlId="formEmail">
                             <Form.Label>
                               Email<span style={{ color: "red" }}>*</span>
                             </Form.Label>
-                            <Form.Control
-                              className="inputEmailProfile"
-                              required
-                              disabled={isDone ? true : false}
-                              type="email"
-                              name="email"
-                              value={formData.email}
-                              onChange={handleFormChange}
-                            />
+                            <Form.Control className="inputEmailProfile" required disabled={isDone ? true : false} type="email" name="email" value={formData.email} onChange={handleFormChange} />
                           </Form.Group>
 
                           <Form.Group controlId="formlinkSosmed">
@@ -544,13 +506,7 @@ const ProfileForm = () => {
                               Link Sosial Media
                               <span style={{ color: "red" }}>*</span>
                             </Form.Label>
-                            <Form.Control
-                              required
-                              disabled={isDone ? true : false}
-                              name="linkSosmed"
-                              value={formData.linkSosmed}
-                              onChange={handleFormChange}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} name="linkSosmed" value={formData.linkSosmed} onChange={handleFormChange} />
                           </Form.Group>
 
                           <Button
@@ -575,17 +531,17 @@ const ProfileForm = () => {
         ) : (
           <>
             <Form onSubmit={handleSubmit}>
-              <section class="my-app_body">
-                <div class="container" style={{ marginTop: 100 }}>
-                  <div class="row">
-                    <div class="col-4">
-                      <div class="my-card card">
-                        <div class="my-card_header card-header">
-                          <div class="my-card_header-title">
-                            <div class="my-text-overline ">Update Profile</div>
+              <section className="my-app_body">
+                <div className="container" style={{ marginTop: 100 }}>
+                  <div className="row">
+                    <div className="col-4">
+                      <div className="my-card card">
+                        <div className="my-card_header card-header">
+                          <div className="my-card_header-title">
+                            <div className="my-text-overline ">Update Profile</div>
                           </div>
                         </div>
-                        <div class="my-card_body card-body-profile">
+                        <div className="my-card_body card-body-profile">
                           <div
                             style={{
                               marginTop: "20px",
@@ -648,84 +604,44 @@ const ProfileForm = () => {
                               Foto Profile
                               <span style={{ color: "red" }}>*</span>
                             </Form.Label>
-                            <Form.Control
-                              required
-                              disabled={isDone ? true : false}
-                              type="file"
-                              name="foto"
-                              accept=".jpg, .jpeg, .png"
-                              onChange={handleImageChangeShow}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} type="file" name="foto" accept=".jpg, .jpeg, .png" onChange={handleImageChangeShow} />
                           </Form.Group>
 
-                          <div class="my-text-overline">
-                            Besar file: maksimum 10.000.000 bytes (10
-                            Megabytes). Ekstensi file yang diperbolehkan: .JPG
-                            .JPEG .PNG
-                          </div>
+                          <div className="my-text-overline">Besar file: maksimum 10.000.000 bytes (10 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</div>
                         </div>
                       </div>
                     </div>
 
-                    <div class="col-8">
-                      <div class="my-alert alert alert-info">
-                        <img
-                          class="my-alert_icon"
-                          src="./images/icon-alert.svg"
-                          alt=""
-                        />
-                        <span class="my-alert_text">
-                          Your latest transaction may take a few minutes to show
-                          up in your activity.
-                        </span>
+                    <div className="col-8">
+                      <div className="my-alert alert alert-info">
+                        <img className="my-alert_icon" src="./images/icon-alert.svg" alt="" />
+                        <span className="my-alert_text">Your latest transaction may take a few minutes to show up in your activity.</span>
                       </div>
-                      <div class="my-card card">
-                        <div class="my-card_header card-header">
-                          <h3 class="my-card_header-title card-title">
-                            General Information
-                          </h3>
-                          {/* <a class="my-card_header-link" href="/">
+                      <div className="my-card card">
+                        <div className="my-card_header card-header">
+                          <h3 className="my-card_header-title card-title">General Information</h3>
+                          {/* <a className="my-card_header-link" href="/">
                       See all →
                     </a> */}
                         </div>
 
                         <div className="form-profile-all">
-                          <Form.Group
-                            className="mb-3"
-                            controlId="formnamaToko"
-                          >
+                          <Form.Group className="mb-3" controlId="formnamaToko">
                             <Form.Label>
                               Nama Company
                               <span style={{ color: "red" }}>*</span>
                             </Form.Label>
-                            <Form.Control
-                              required
-                              disabled={isDone ? true : false}
-                              name="namaCompany"
-                              value={formDataEo.namaCompany}
-                              onChange={handleFormChange}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} name="namaCompany" value={formDataEo.namaCompany} onChange={handleFormChange} />
                           </Form.Group>
 
                           <Form>
-                            <Form.Group
-                              className="mb-3"
-                              controlId="phoneNumber"
-                            >
+                            <Form.Group className="mb-3" controlId="phoneNumber">
                               <Form.Label>
                                 Phone Number
                                 <span style={{ color: "red" }}>*</span>
                               </Form.Label>
-                              <Form.Control
-                                disabled={isDone ? true : false}
-                                placeholder="+62"
-                                name="phoneNumber"
-                                value={formDataEo.phoneNumber}
-                                onChange={handleFormChange}
-                              />
-                              <Form.Text className="text-muted">
-                                Please enter your phone number in +62 format.
-                              </Form.Text>
+                              <Form.Control disabled={isDone ? true : false} placeholder="+62" name="phoneNumber" value={formDataEo.phoneNumber} onChange={handleFormChange} />
+                              <Form.Text className="text-muted">Please enter your phone number in +62 format.</Form.Text>
                             </Form.Group>
                           </Form>
                           <Form.Group controlId="formDescription">
@@ -733,52 +649,28 @@ const ProfileForm = () => {
                               Deskripsi Company
                               <span style={{ color: "red" }}>*</span>
                             </Form.Label>
-                            <Form.Control
-                              required
-                              disabled={isDone ? true : false}
-                              as="textarea"
-                              rows={3}
-                              name="deskripsiCompany"
-                              value={formDataEo.deskripsiCompany}
-                              onChange={handleFormChange}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} as="textarea" rows={3} name="deskripsiCompany" value={formDataEo.deskripsiCompany} onChange={handleFormChange} />
                           </Form.Group>
                         </div>
-                        <div class="my-card_header card-header">
-                          <h3 class="my-card_header-title card-title">
-                            Address
-                          </h3>
-                          {/* <a class="my-card_header-link" href="#dsa">
+                        <div className="my-card_header card-header">
+                          <h3 className="my-card_header-title card-title">Address</h3>
+                          {/* <a className="my-card_header-link" href="#dsa">
                         See all →
                       </a> */}
                         </div>
-                        <div class="form-profile-all">
+                        <div className="form-profile-all">
                           <Form.Group className="mb-3" controlId="formAddress">
                             <Form.Label>
                               Alamat<span style={{ color: "red" }}>*</span>
                             </Form.Label>
-                            <Form.Control
-                              required
-                              disabled={isDone ? true : false}
-                              name="alamat"
-                              value={formDataEo.alamat}
-                              onChange={handleFormChange}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} name="alamat" value={formDataEo.alamat} onChange={handleFormChange} />
                           </Form.Group>
 
                           <Form.Group className="mb-3" controlId="formEmail">
                             <Form.Label>
                               Email<span style={{ color: "red" }}>*</span>
                             </Form.Label>
-                            <Form.Control
-                              className="inputEmailProfile"
-                              required
-                              disabled={isDone ? true : false}
-                              type="email"
-                              name="email"
-                              value={formDataEo.email}
-                              onChange={handleFormChange}
-                            />
+                            <Form.Control className="inputEmailProfile" required disabled={isDone ? true : false} type="email" name="email" value={formDataEo.email} onChange={handleFormChange} />
                           </Form.Group>
 
                           <Form.Group controlId="formlinkSosmed">
@@ -786,13 +678,7 @@ const ProfileForm = () => {
                               Link linkSosmed EO
                               <span style={{ color: "red" }}>*</span>
                             </Form.Label>
-                            <Form.Control
-                              required
-                              disabled={isDone ? true : false}
-                              name="linkSosmed"
-                              value={formDataEo.linkSosmed}
-                              onChange={handleFormChange}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} name="linkSosmed" value={formDataEo.linkSosmed} onChange={handleFormChange} />
                           </Form.Group>
 
                           <Button
@@ -816,6 +702,7 @@ const ProfileForm = () => {
           </>
         )}
       </main>
+      <FooterComponent />
     </div>
   );
 };

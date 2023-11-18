@@ -9,10 +9,7 @@ const Event = () => {
   const [registeredData, setRegisteredData] = useState([]);
   const [upcomingEvent, setUpcomingEvent] = useState([]);
   const [dataChanged, updateData] = useReducer((x) => x + 1, 0);
-  const filteredData = upcomingEvent.filter(
-    (upcoming) =>
-      !registeredData.some((registered) => upcoming.id === registered.id)
-  );
+  const filteredData = upcomingEvent.filter((upcoming) => !registeredData.some((registered) => upcoming.id === registered.id));
 
   console.log(filteredData);
 
@@ -23,17 +20,8 @@ const Event = () => {
         <div className="flex items-center justify-center my-6">
           <ProfileAlertEo />
         </div>
-        <RegisteredEvent
-          setRegisteredData={setRegisteredData}
-          dataChanged={dataChanged}
-        />
-        <UpcomingEvent
-          upcomingEvent={upcomingEvent}
-          setUpcomingEvent={setUpcomingEvent}
-          filteredData={filteredData}
-          dataChanged={dataChanged}
-          updateData={updateData}
-        />
+        <RegisteredEvent setRegisteredData={setRegisteredData} dataChanged={dataChanged} />
+        <UpcomingEvent upcomingEvent={upcomingEvent} setUpcomingEvent={setUpcomingEvent} filteredData={filteredData} dataChanged={dataChanged} updateData={updateData} />
       </main>
       <FooterComponent />
     </>

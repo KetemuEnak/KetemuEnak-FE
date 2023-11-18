@@ -7,18 +7,25 @@ import { format } from "date-fns";
 import dayjs from "dayjs";
 import { Cookies } from "react-cookie";
 import "react-day-picker/dist/style.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../../components/Navigation/Navbar";
+import FooterComponent from "../../components/Footer/Footer";
+import { storage } from '../../../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+
 
 const CreateEvent = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [image, setImage] = useState(null);
   const [isDone, setIsDone] = useState(false);
   const [error, setError] = useState(null);
+  const [imageSelected, setImageSelected] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
 
-  const apiUrlBase = "https://ketemuenak.fly.dev"
-  const id = localStorage.getItem('id');
+  const apiUrlBase = "https://ketemuenak.fly.dev";
+  const id = localStorage.getItem("id");
   const apiUrl = `${apiUrlBase}/eo/${id}/event`;
 
   const [formData, setFormData] = useState({
@@ -31,48 +38,25 @@ const CreateEvent = () => {
     Deskripsi: null,
     Kuota: 0,
     HargaTiket: null,
-    website:null
+    website: null,
   });
 
-  // React.useEffect(()=>{
-  //   const userData = {
-  //     foto: null,
-  //     namaEvent: null,
-  //     tanggalEvent: null,
-  //     status: "buka",
-  //     kotaEvent: null,
-  //     LinkGmaps: null,
-  //     Deskripsi: null,
-  //     Kuota: 0,
-  //     HargaTiket: null,
-  //   };
-  //   console.log(Object.keys(userData)[0])
-  //   for (var i = 0; i < Object.keys(userData).length; i++) {
-  //     const key = Object.keys(userData)[i];
-  //     const value = Object.values(userData)[i];
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       [key]: value
-  //     }));
-  //   }
-  //   if(userData.namaEvent !== null){
-  //     setIsDone(true)
-  //   }
-  // },[])
-
   const handleIncrement = () => {
-    setFormData({ ...formData, Kuota: formData.Kuota+10 });
+    setFormData({ ...formData, Kuota: formData.Kuota + 10 });
   };
 
   const handleDecrement = () => {
     if (formData.Kuota > 1) {
-      setFormData({ ...formData, Kuota: formData.Kuota-10 });
+      setFormData({ ...formData, Kuota: formData.Kuota - 10 });
     }
   };
 
   const handleImageChangeShow = (event) => {
     const selectedFile = event.target.files[0];
     const reader = new FileReader();
+    if (event.target.files[0]) {
+      setImageSelected(event.target.files[0])
+    }
     setFormData({ ...formData, foto: selectedFile.name });
     reader.onload = () => {
       if (reader.readyState === 2) {
@@ -82,10 +66,29 @@ const CreateEvent = () => {
 
     if (selectedFile) {
       reader.readAsDataURL(selectedFile);
-      
+    }
+
+    if (selectedFile) {
+      const storageRef = ref(storage, `images/${selectedFile.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
+        },
+        (error) => {
+          console.error(error.message);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setImageUrl(downloadURL)
+        }
+      );
+    } else {
+      console.error('No file selected');
     }
   };
-
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
@@ -93,37 +96,18 @@ const CreateEvent = () => {
   };
 
   const handleFormChangeKuota = (event) => {
-    handleFormChange(event)
-    
+    handleFormChange(event);
   };
 
-  // const handleSubmit = (event) => {
-  //   const formValues = {
-  //     foto: formData.foto,
-  //     namaEvent: formData.namaEvent,
-  //     tanggalEvent: formData.tanggalEvent,
-  //     status: formData.status,
-  //     kotaEvent: formData.kotaEvent,
-  //     LinkGmaps: formData.LinkGmaps,
-  //     Deskripsi: formData.Deskripsi,
-  //     Kuota: formData.Kuota,
-  //     HargaTiket: formData.HargaTiket,
-  //   };
 
-  //   // Log the form values in JSON format
-  //   console.log(JSON.stringify(formValues, null, 2));
-  //   event.preventDefault();
-  //   setIsDone((prev) => !prev);
-  // };
-
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if(!isDone){
+    if (!isDone) {
       try {
-        const dateNow = new Date()
+        const dateNow = new Date();
         const formValues = {
           // img_url: formData.foto,
-          img_url: "https://www.flowbite-react.com/images/blog/image-1.jpg",
+          img_url: imageUrl,
           title: formData.namaEvent,
           time: formData.tanggalEvent,
           status: formData.status,
@@ -134,18 +118,17 @@ const CreateEvent = () => {
           ticket_price: Number(formData.HargaTiket),
           is_publish: true,
           published_at: dateNow,
-          url_website: formData.website
+          url_website: formData.website,
         };
         console.log(JSON.stringify(formValues, null, 2));
         const response = await fetch(apiUrl, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(formValues),
         });
-  
+
         if (response.ok) {
           const result = await response.json();
           setResponseMessage(result.message);
@@ -155,14 +138,11 @@ const CreateEvent = () => {
       } catch (error) {
         setError(error.message);
       }
-      navigate('/event')
-    }
-    else{
+      navigate("/event");
+    } else {
       setIsDone((prev) => !prev);
     }
-  }
-
-
+  };
 
   const cookies = new Cookies();
   const token = cookies.get("uidTokenBinarApp");
@@ -190,36 +170,30 @@ const CreateEvent = () => {
     }
   }
 
-  const handleDate =() =>{
+  const handleDate = () => {
     const date = `${format(range.from, "PPP")}`;
-    setFormData({ ...formData, tanggalEvent: range.from, });
-    setDisplay(false)
-  }
+    setFormData({ ...formData, tanggalEvent: range.from });
+    setDisplay(false);
+  };
   return (
     <div className="my-app">
       <main>
-        <NavbarAll />
+        <Navbar />
         {
           <>
             <Form onSubmit={handleSubmit}>
               <section className="my-app_body">
-                <div className="container" style={{ marginTop: 100 }}>
+                <div className="container">
                   <div className="row">
                     <div className="col-4">
-                      
                       <div className="my-card card">
                         <div className="my-card_header card-header">
                           <div className="my-card_header-title">
-          
                             <div className="my-text-overline text-tittle">
-                            <a
-                              className="backArrow"
-                              href="/"
-                              style={{ color: "black", marginRight:20 }}
-                            >
-                              {" "}
-                              <FontAwesomeIcon icon={faArrowLeft} />
-                            </a>
+                              <a className="backArrow" href="/event" style={{ color: "black", marginRight: 20 }}>
+                                {" "}
+                                <FontAwesomeIcon icon={faArrowLeft} />
+                              </a>
                               Daftarkan Event
                             </div>
                           </div>
@@ -285,61 +259,33 @@ const CreateEvent = () => {
                               </div>
                             </div>
 
-                            <Form.Control
-                              required
-                              disabled={isDone ? true : false}
-                              type="file"
-                              name="foto"
-                              accept=".jpg, .jpeg, .png"
-                              onChange={handleImageChangeShow}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} type="file" name="foto" accept=".jpg, .jpeg, .png" onChange={handleImageChangeShow} />
                           </Form.Group>
 
-                          <div className="my-text-overline">
-                            Besar file: maksimum 10.000.000 bytes (10
-                            Megabytes). Ekstensi file yang diperbolehkan: .JPG
-                            .JPEG .PNG
-                          </div>
+                          <div className="my-text-overline">Besar file: maksimum 10.000.000 bytes (10 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</div>
                         </div>
                       </div>
                     </div>
 
                     <div className="col-8">
                       <div className="my-alert alert alert-info">
-                        <img
-                          className="my-alert_icon"
-                          src="./images/icon-alert.svg"
-                          alt=""
-                        />
-                        <span className="my-alert_text">
-                          Tertarik menjadi penyelenggara acara? Daftarkan event
-                          Anda sekarang dan jadikan momen spesial Anda terwujud!
-                        </span>
+                        <img className="my-alert_icon" src="./images/icon-alert.svg" alt="" />
+                        <span className="my-alert_text">Tertarik menjadi penyelenggara acara? Daftarkan event Anda sekarang dan jadikan momen spesial Anda terwujud!</span>
                       </div>
                       <div className="my-card card">
                         <div className="my-card_header card-header">
-                          <h3 className="my-card_header-title card-title" style={{paddingTop:8}}>
+                          <h3 className="my-card_header-title card-title" style={{ paddingTop: 8 }}>
                             Informasi Event
                           </h3>
-            
                         </div>
 
                         <div className="form-profile-all">
-                          <Form.Group
-                            className="mb-3"
-                            controlId="formCompanyName"
-                          >
+                          <Form.Group className="mb-3" controlId="formCompanyName">
                             <Form.Label>
                               Nama Event
                               <span style={{ color: "red" }}>*</span>
                             </Form.Label>
-                            <Form.Control
-                              required
-                              disabled={isDone ? true : false}
-                              name="namaEvent"
-                              value={formData.namaEvent}
-                              onChange={handleFormChange}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} name="namaEvent" value={formData.namaEvent} onChange={handleFormChange} />
                           </Form.Group>
 
                           <Form.Group className="mb-3" controlId="tanggalEvent">
@@ -353,35 +299,17 @@ const CreateEvent = () => {
                                 onClick={() => setDisplay(!isDisplay)}
                                 type="button"
                                 disabled={isDone ? true : false}
-                                style={isDone ? {backgroundColor:"#e9ecef",border:"1px solid #e3e6ea"} : {backgroundColor: "white", border:"1px solid #dee2e6"}}
+                                style={isDone ? { backgroundColor: "#e9ecef", border: "1px solid #e3e6ea" } : { backgroundColor: "white", border: "1px solid #dee2e6" }}
                               >
-                                <span style={{fontSize:16}}>{footer}</span>
-                                {isDisplay ? (
-                                  <i
-                                    className="fa fa-chevron-up"
-                                    aria-hidden="true"
-                                  ></i>
-                                ) : (
-                                  <i
-                                    className="fa fa-chevron-down"
-                                    aria-hidden="true"
-                                  ></i>
-                                )}
+                                <span style={{ fontSize: 16 }}>{footer}</span>
+                                {isDisplay ? <i className="fa fa-chevron-up" aria-hidden="true"></i> : <i className="fa fa-chevron-down" aria-hidden="true"></i>}
                               </button>
                               {isDisplay ? (
                                 <div className="open-calender calender-admin mt-5">
-                                  <DayPicker
-                                    defaultMonth={new Date(Date.now())}
-                                    mode="range"
-                                    selected={range}
-                                    onSelect={setRange}
-                                    footer={footer}
-                                    format={"YYYY-DD-MM"}
-                                  />
+                                  <DayPicker defaultMonth={new Date(Date.now())} mode="range" selected={range} onSelect={setRange} footer={footer} format={"YYYY-DD-MM"} />
                                   <button
                                     className="sewa-button confirm-button mt-2"
                                     onClick={handleDate}
-                                    
                                     style={{
                                       width: "320px",
                                       backgroundColor: "#BCA37F",
@@ -402,10 +330,10 @@ const CreateEvent = () => {
                             </div>
                           </Form.Group>
                           <Form.Group className="mb-3" controlId="status">
-                            <Form.Label>Status Registrasi<span style={{ color: "red" }}>*</span></Form.Label>
-                            <Form.Control as="select" defaultValue="buka"              name="status"  disabled={isDone ? true : false}
-                              value={formData.status}
-                              onChange={handleFormChange}>
+                            <Form.Label>
+                              Status Registrasi<span style={{ color: "red" }}>*</span>
+                            </Form.Label>
+                            <Form.Control as="select" defaultValue="buka" name="status" disabled={isDone ? true : false} value={formData.status} onChange={handleFormChange}>
                               <option value="buka">Buka</option>
                               <option value="tutup">Tutup</option>
                             </Form.Control>
@@ -429,40 +357,19 @@ const CreateEvent = () => {
                               Link Google Maps
                               <span style={{ color: "red" }}>*</span>
                             </Form.Label>
-                            <a
-                              className="my-card_header-link"
-                              href="https://www.google.com/maps"
-                              style={{ float: "right" }}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
+                            <a className="my-card_header-link" href="https://www.google.com/maps" style={{ float: "right" }} target="_blank" rel="noreferrer">
                               Buka Google Maps →
                             </a>
-                            <Form.Control
-                              required
-                              disabled={isDone ? true : false}
-                              name="LinkGmaps"
-                              value={formData.LinkGmaps}
-                              onChange={handleFormChange}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} name="LinkGmaps" value={formData.LinkGmaps} onChange={handleFormChange} />
                           </Form.Group>
                           <Form.Group className="mb-3" controlId="formWebsite">
                             <Form.Label>
                               Link Website
                               <span style={{ color: "red" }}>*</span>
                             </Form.Label>
-                            <Form.Control
-                              required 
-                              disabled={isDone ? true : false}
-                              name="website"
-                              value={formData.website}
-                              onChange={handleFormChange}
-                            />
+                            <Form.Control required disabled={isDone ? true : false} name="website" value={formData.website} onChange={handleFormChange} />
                           </Form.Group>
-                          <Form.Group
-                            controlId="formDescription"
-                            className="mb-3"
-                          >
+                          <Form.Group controlId="formDescription" className="mb-3">
                             <Form.Label>
                               Deskripsi Company
                               <span style={{ color: "red" }}>*</span>
@@ -496,13 +403,7 @@ const CreateEvent = () => {
                               >
                                 -
                               </Button>
-                              <FormControl
-                                style={{ color: "rgb(0,0,0,0.7)" }}
-                                name="kuota"
-                                value={formData.Kuota}
-                                onChange={handleFormChangeKuota}
-                                disabled={isDone ? true : false}
-                              />
+                              <FormControl style={{ color: "rgb(0,0,0,0.7)" }} name="kuota" value={formData.Kuota} onChange={handleFormChangeKuota} disabled={isDone ? true : false} />
                               <Button
                                 // variant="outline-secondary"
                                 onClick={handleIncrement}
@@ -555,6 +456,7 @@ const CreateEvent = () => {
             </Form>
           </>
         }
+        <FooterComponent />
       </main>
     </div>
   );
