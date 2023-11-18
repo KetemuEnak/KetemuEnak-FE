@@ -32,7 +32,7 @@ const FormSignUpEo = () => {
 
   useEffect(()=>{
     const role = localStorage.getItem("role");
-    if (localStorage.getItem('token') === null){
+    if (localStorage.getItem('token') !== null){
       navigate('/');
     }
   },[])
