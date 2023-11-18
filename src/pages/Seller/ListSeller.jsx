@@ -49,7 +49,7 @@ const ListSeller = () => {
                   key={seller.id}
                   idEO={id}
                   idEvent={idEvent}
-                  idSeller={seller.id_Seller}
+                  idSeller={seller.id_seller}
                   avatar={seller.seller.img_url}
                   city={seller.seller.city}
                   img={seller.seller.img_url}
