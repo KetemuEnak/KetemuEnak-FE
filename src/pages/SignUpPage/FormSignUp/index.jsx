@@ -31,8 +31,8 @@ const FormSignUp = () => {
 
   useEffect(()=>{
     const role = localStorage.getItem("role");
-    if (localStorage.getItem('token') !== null && role == "eo"){
-      navigate('/event');
+    if (localStorage.getItem('token') === null){
+      navigate('/');
     }
   },[])
   
