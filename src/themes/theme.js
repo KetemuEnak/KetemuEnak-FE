@@ -22,4 +22,9 @@ export const CustomTheme = {
       base: "flex items-center justify-between space-x-2 rounded-b border-gray-200 p-6 dark:border-gray-600",
     },
   },
+  footer: {
+    root: {
+      base: "w-full rounded-lg bg-white dark:bg-gray-800 md:flex md:items-center md:justify-between",
+    },
+  },
 };

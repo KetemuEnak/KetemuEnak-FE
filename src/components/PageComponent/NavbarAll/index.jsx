@@ -43,7 +43,7 @@ const NavbarAll = () => {
               <div className="wrapper-sidebar">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item sidebar-funct">
-                    <a className="nav-link" href="/signin">
+                    <a className="nav-link" href="/signin-eo">
                       Join as EO
                     </a>
                   </li>

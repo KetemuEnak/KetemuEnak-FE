@@ -1,36 +1,45 @@
 import { Card, Button, Tooltip } from "flowbite-react";
 import { useState } from "react";
-import { BsCalendar3, BsEnvelopePaper } from "react-icons/bs";
+import { BsCalendar3 } from "react-icons/bs";
 import { IoLocationOutline } from "react-icons/io5";
 import ModalDetailEvent from "../Modals/ModalDetailEvent";
 import ConvertDate from "../../utils/ConvertDate";
 import { CustomTheme } from "../../themes/theme";
+import axios from "axios";
+import { ApiUrl } from "../../config/ApiUrl";
+import EventImage from "../assets/image.png";
+import CekUrl from "../../utils/CekUrl";
 
 const EventCard = ({
+  id,
+  isRegistered,
   img,
   title,
-  applyBefore,
   eventDate,
   location,
   desc,
-  isApplied,
+  city,
+  url_website,
+  updateData,
 }) => {
   const [openModal, setOpenModal] = useState(false);
+  const token = localStorage.getItem("token");
+
+  const handleClickDaftar = () => {
+    axios
+      .get(`${ApiUrl}/seller/events/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(() => updateData());
+  };
+
   return (
-    <Card imgSrc={img}>
+    <Card imgSrc={CekUrl(img) ? img : EventImage}>
       <div className="flex flex-col mb-1">
         <h5 className="mb-2 text-base font-bold tracking-tight text-gray-900 md:text-lg lg:text-xl">
           {title}
         </h5>
-        <div className="flex flex-wrap justify-between gap-y-1 gap-x-5">
-          <Tooltip content="Batas Tanggal Pendaftaran" placement="bottom">
-            <div className="flex items-center content-center gap-x-2">
-              <BsEnvelopePaper />
-              <p className="font-normal text-gray-700">
-                {ConvertDate(applyBefore)}
-              </p>
-            </div>
-          </Tooltip>
+        <div className="grid grid-cols-1 gap-y-1 gap-x-5">
           <Tooltip content="Waktu Pelaksanaan" placement="bottom">
             <div className="flex items-center content-center gap-x-2">
               <BsCalendar3 />
@@ -42,7 +51,13 @@ const EventCard = ({
           <Tooltip content="Lokasi" placement="bottom" className="col-span-2">
             <div className="flex items-center content-center gap-x-2">
               <IoLocationOutline />
-              <p className="font-normal text-gray-700">{location}</p>
+              <a
+                href={location}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-normal text-gray-700">
+                {city}
+              </a>
             </div>
           </Tooltip>
         </div>
@@ -54,20 +69,31 @@ const EventCard = ({
         <Button color="light" onClick={() => setOpenModal(true)}>
           Detail
         </Button>
-        <Button disabled={isApplied} theme={CustomTheme.button} color="primary">
-          {isApplied ? "Terdaftar" : "Daftar"}
-        </Button>
+        {isRegistered ? (
+          <Button disabled={true} theme={CustomTheme.button} color="primary">
+            Terdaftar
+          </Button>
+        ) : (
+          <Button
+            theme={CustomTheme.button}
+            color="primary"
+            onClick={handleClickDaftar}>
+            Daftar
+          </Button>
+        )}
       </div>
       <ModalDetailEvent
+        handleClickDaftar={handleClickDaftar}
         openModal={openModal}
         setOpenModal={setOpenModal}
         title={title}
         img={img}
-        isApplied={isApplied}
-        applyBefore={applyBefore}
+        isRegistered={isRegistered}
         eventDate={eventDate}
         location={location}
         desc={desc}
+        url_website={url_website}
+        city={city}
       />
     </Card>
   );

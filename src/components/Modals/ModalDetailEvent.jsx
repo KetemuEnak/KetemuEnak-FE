@@ -1,19 +1,24 @@
 import { Button, Modal, Tooltip } from "flowbite-react";
-import { BsEnvelopePaper, BsCalendar3 } from "react-icons/bs";
+import { BsCalendar3 } from "react-icons/bs";
 import { IoLocationOutline } from "react-icons/io5";
 import ConvertDate from "../../utils/ConvertDate";
 import { CustomTheme } from "../../themes/theme";
+import { GlobeAltIcon } from "@heroicons/react/24/outline";
+import CekUrl from "../../utils/CekUrl";
+import EventImage from "../assets/image.png";
 
 const ModalDetailEvent = ({
+  url_website,
   openModal,
   setOpenModal,
   img,
   title,
-  applyBefore,
   eventDate,
   location,
+  city,
   desc,
-  isApplied,
+  isRegistered,
+  handleClickDaftar,
 }) => {
   return (
     <Modal
@@ -23,16 +28,12 @@ const ModalDetailEvent = ({
       <Modal.Header>{title}</Modal.Header>
       <Modal.Body>
         <div className="flex flex-col px-10 w-full">
-          <img src={img} alt="" className="w-96 mb-5 self-center rounded-lg" />
+          <img
+            src={CekUrl(img) ? img : EventImage}
+            alt=""
+            className="w-96 mb-5 self-center rounded-lg"
+          />
           <div className="flex flex-wrap gap-x-5 mb-7 justify-center">
-            <Tooltip content="Batas Tanggal Pendaftaran" placement="bottom">
-              <div className="flex gap-x-1 items-center content-center">
-                <BsEnvelopePaper />
-                <p className="font-normal text-gray-700">
-                  {ConvertDate(applyBefore)}
-                </p>
-              </div>
-            </Tooltip>
             <Tooltip content="Waktu Pelaksanaan" placement="bottom">
               <div className="flex gap-x-1 items-center content-center">
                 <BsCalendar3 />
@@ -44,21 +45,42 @@ const ModalDetailEvent = ({
             <Tooltip content="Lokasi" placement="bottom">
               <div className="flex gap-x-1 items-center content-center">
                 <IoLocationOutline />
-                <p className="font-normal text-gray-700">{location}</p>
+                <a
+                  href={location}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-normal text-gray-700">
+                  {city}
+                </a>
               </div>
             </Tooltip>
+            <div className="flex items-center content-center gap-x-2">
+              <GlobeAltIcon className="w-5 h-5 block text-gray-700" />
+              <a
+                href={url_website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-normal text-gray-700">
+                {url_website}
+              </a>
+            </div>
           </div>
           <p className="font-normal text-gray-700 text-justify">{desc}</p>
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          disabled={isApplied}
-          onClick={() => setOpenModal(false)}
-          theme={CustomTheme.button}
-          color="primary">
-          {isApplied ? "Terdaftar" : "Daftar"}
-        </Button>
+        {isRegistered ? (
+          <Button disabled={true} theme={CustomTheme.button} color="primary">
+            Terdaftar
+          </Button>
+        ) : (
+          <Button
+            theme={CustomTheme.button}
+            color="primary"
+            onClick={handleClickDaftar}>
+            Daftar
+          </Button>
+        )}
         <Button color="gray" onClick={() => setOpenModal(false)}>
           Batal
         </Button>
