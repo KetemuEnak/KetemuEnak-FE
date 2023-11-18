@@ -29,9 +29,13 @@ const FormSignIn = () => {
   useEffect(()=>{
     const role = localStorage.getItem("role");
     if (localStorage.getItem('token') !== null && role == "seller"){
+      navigate('/seller');
+    }
+    if (localStorage.getItem('token') !== null && role == "eo"){
       navigate('/event');
     }
   },[])
+  
   
   const handleButtonRegister = async(e) => {
     e.preventDefault();
