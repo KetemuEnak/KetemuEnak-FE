@@ -5,6 +5,8 @@ import useFormInput from "../../hooks/useFormInput";
 import usePostApi from "../../hooks/usePostApi";
 import Navbar from "../../components/Navigation/Navbar";
 import FooterComponent from "../../components/Footer/Footer";
+import { storage } from '../../../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 const ProfileForm = () => {
   const apiUrlBase = import.meta.env.VITE_API_URL;
