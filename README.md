@@ -42,12 +42,12 @@ $ npm run dev
 
 4. Explore, contribute, and enjoy!
 
-## development team
+## Development Team
 
 This project was developed by the **CPI-FS-SDG-8-C** team from GIGIH 3.0
 
 ## Support and Contact
 
-For any issues or queries, feel free to reach out to us on []().
+For any issues or queries, feel free to reach out to us on [CPI-FS-SDG-8-C Team]().
 
 # Thank You
