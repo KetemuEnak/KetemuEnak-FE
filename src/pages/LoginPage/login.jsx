@@ -52,12 +52,18 @@ const FormSignIn = () => {
         );
         if (response && response.status === 200) {
           const token = responseData.token;
-          const id = responseData.user.id
+          const id = responseData.user.id;
+          const role = responseData.user.role;
           if (token) {
-            localStorage.setItem('role','seller')
-            localStorage.setItem('token', `${token}`)
-            localStorage.setItem('id', `${id}`)
-            navigate('/seller');
+            if (role === 'seller'){
+              localStorage.setItem('role','seller')
+              localStorage.setItem('token', `${token}`)
+              localStorage.setItem('id', `${id}`)
+              navigate('/seller');
+            }
+            else{
+              setErrorMessage('Email or password is incorrect. Please try again.');
+            }
           } else {
             console.log('Received non-200 status code:', response ? response.status : 'No response');
           }
