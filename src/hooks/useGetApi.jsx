@@ -11,9 +11,12 @@ const useGetApi = (url) => {
     const getData = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/${url}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/${url}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setApiResponse(response.data);
       } catch (error) {
         setError(error.message || "An error occurred");
