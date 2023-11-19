@@ -73,6 +73,7 @@ const Event = () => {
           filteredData={filteredData}
           dataChanged={dataChanged}
           updateData={updateData}
+          isProfileComplete={isProfileComplete}
         />
       </main>
       <FooterComponent />

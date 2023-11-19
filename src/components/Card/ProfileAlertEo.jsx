@@ -9,7 +9,7 @@ const ProfileAlertEo = () => {
       <div className="flex w-full flex-col justify-between rounded-lg border border-gray-100 bg-white p-4 shadow-sm dark:border-gray-600 dark:bg-gray-700 md:flex-row lg:max-w-7xl">
         <div className="flex flex-col items-start md:mb-0 md:flex-row md:items-center">
           <a
-            href="https://flowbite.com/"
+            href="/"
             className=" flex items-center border-gray-200 dark:border-gray-600 md:mr-4 md:border-r md:pr-4">
             <span className="self-center whitespace-nowrap text-lg font-semibold font-ke-brand dark:text-white">
               Ketemu Enak

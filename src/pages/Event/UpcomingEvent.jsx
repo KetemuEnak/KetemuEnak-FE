@@ -7,6 +7,7 @@ const UpcomingEvent = ({
   setUpcomingEvent,
   dataChanged,
   updateData,
+  isProfileComplete,
 }) => {
   const { apiResponse, isLoading, error } = useGetApi("events");
 
@@ -44,6 +45,7 @@ const UpcomingEvent = ({
                 city={event.city}
                 url_website={event.url_website}
                 updateData={updateData}
+                isProfileComplete={isProfileComplete}
               />
             ))}
         </div>

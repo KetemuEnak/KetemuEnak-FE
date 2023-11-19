@@ -9,6 +9,7 @@ import axios from "axios";
 import { ApiUrl } from "../../config/ApiUrl";
 import EventImage from "../assets/image.png";
 import CekUrl from "../../utils/CekUrl";
+import ModalProfileAlert from "../Modals/ModalProfileAlert";
 
 const EventCard = ({
   id,
@@ -21,8 +22,10 @@ const EventCard = ({
   city,
   url_website,
   updateData,
+  isProfileComplete,
 }) => {
   const [openModal, setOpenModal] = useState(false);
+  const [openModalProfile, setOpenModalProfile] = useState(false);
   const token = localStorage.getItem("token");
 
   const handleClickDaftar = () => {
@@ -31,6 +34,10 @@ const EventCard = ({
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => updateData());
+  };
+
+  const handleCompleteProfile = () => {
+    setOpenModalProfile(true);
   };
 
   return (
@@ -77,7 +84,9 @@ const EventCard = ({
           <Button
             theme={CustomTheme.button}
             color="primary"
-            onClick={handleClickDaftar}>
+            onClick={
+              isProfileComplete() ? handleClickDaftar : handleCompleteProfile
+            }>
             Daftar
           </Button>
         )}
@@ -94,6 +103,10 @@ const EventCard = ({
         desc={desc}
         url_website={url_website}
         city={city}
+      />
+      <ModalProfileAlert
+        setOpenModal={setOpenModalProfile}
+        openModal={openModalProfile}
       />
     </Card>
   );
