@@ -103,6 +103,7 @@ const EventCard = ({
         desc={desc}
         url_website={url_website}
         city={city}
+        isProfileComplete={isProfileComplete}
       />
       <ModalProfileAlert
         setOpenModal={setOpenModalProfile}

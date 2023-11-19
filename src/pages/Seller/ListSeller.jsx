@@ -33,6 +33,39 @@ const ListSeller = () => {
 
         <div className="flex flex-col mt-6">
           <h1 className="mb-6 text-lg font-bold sm:text-xl md:text-2xl lg:text-3xl">
+            Peserta Acara
+          </h1>
+          {isLoading && (
+            <p className="font-normal text-gray-700 text-center">Loading...</p>
+          )}
+          {!isLoading && sellerData.length === 0 ? (
+            <p className="font-normal text-gray-700 text-center">
+              Belum ada orang yang mendaftar pada acara ini.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {sellerData
+                .filter((seller) => seller.status === "accepted")
+                .map((seller) => (
+                  <SellerCard
+                    key={seller.id}
+                    idEO={id}
+                    idEvent={idEvent}
+                    idSeller={seller.id}
+                    avatar={seller.seller.img_url}
+                    city={seller.seller.city}
+                    img={seller.seller.img_url}
+                    name={seller.seller.name}
+                    desc={seller.seller.description}
+                    socmed_or_web_url={seller.seller.socmed_or_web_url}
+                    contact={seller.seller.contact}
+                  />
+                ))}
+            </div>
+          )}
+        </div>
+        <div className="flex flex-col mt-6">
+          <h1 className="mb-6 text-lg font-bold sm:text-xl md:text-2xl lg:text-3xl">
             Pendaftar Acara
           </h1>
           {isLoading && (
@@ -44,21 +77,23 @@ const ListSeller = () => {
             </p>
           ) : (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {sellerData.map((seller) => (
-                <SellerCard
-                  key={seller.id}
-                  idEO={id}
-                  idEvent={idEvent}
-                  idSeller={seller.id}
-                  avatar={seller.seller.img_url}
-                  city={seller.seller.city}
-                  img={seller.seller.img_url}
-                  name={seller.seller.name}
-                  desc={seller.seller.description}
-                  socmed_or_web_url={seller.seller.socmed_or_web_url}
-                  contact={seller.seller.contact}
-                />
-              ))}
+              {sellerData
+                .filter((seller) => seller.status === null)
+                .map((seller) => (
+                  <SellerCard
+                    key={seller.id}
+                    idEO={id}
+                    idEvent={idEvent}
+                    idSeller={seller.id}
+                    avatar={seller.seller.img_url}
+                    city={seller.seller.city}
+                    img={seller.seller.img_url}
+                    name={seller.seller.name}
+                    desc={seller.seller.description}
+                    socmed_or_web_url={seller.seller.socmed_or_web_url}
+                    contact={seller.seller.contact}
+                  />
+                ))}
             </div>
           )}
         </div>
