@@ -1,6 +1,6 @@
-# Welcome to Ketemu Enak || Event Information and Culinary Bazaar
+## Welcome to Ketemu Enak || Event Information and Culinary Bazaar
 
-<img src="image.png" alt="Logo" width="200" style="border-radius: 50%;"/>
+<img src="./src/components/assets/logo-rounded.png" alt="Logo" width="200"/>
 
 ## About
 
@@ -42,8 +42,12 @@ $ npm run dev
 
 4. Explore, contribute, and enjoy!
 
+## development team
+
+This project was developed by the CPI-FS-SDG-8-C team from GIGIH 3.0
+
 ## Support and Contact
 
-For any issues or queries, feel free to reach out to us on [](https://www.google.com).
+For any issues or queries, feel free to reach out to us on []().
 
-### Thank You
+# Thank You
