@@ -17,6 +17,8 @@ const SellerCard = ({
   name,
   city,
   desc,
+  status,
+  updateData,
 }) => {
   const [openModal, setOpenModal] = useState(false);
   const token = localStorage.getItem("token");
@@ -27,7 +29,10 @@ const SellerCard = ({
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => console.log(response))
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
+      .finally(() => {
+        updateData();
+      });
   };
 
   const handleClickReject = () => {
@@ -36,7 +41,10 @@ const SellerCard = ({
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => console.log(response))
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
+      .finally(() => {
+        updateData();
+      });
   };
 
   return (
@@ -60,16 +68,20 @@ const SellerCard = ({
       <p className="text-base text-gray-700 line-clamp-4 text-justify mb-3">
         {desc}
       </p>
-      <div className="grid grid-cols-3 gap-x-3">
+      <div className={`grid ${status ? "grid-cols-1" : "grid-cols-3"} gap-x-3`}>
         <Button color="light" onClick={() => setOpenModal(true)}>
           Detail
         </Button>
-        <Button color="failure" onClick={handleClickReject}>
-          Tolak
-        </Button>
-        <Button color="success" onClick={handleClickApprove}>
-          Terima
-        </Button>
+        {status === null && (
+          <>
+            <Button color="failure" onClick={handleClickReject}>
+              Tolak
+            </Button>
+            <Button color="success" onClick={handleClickApprove}>
+              Terima
+            </Button>
+          </>
+        )}
       </div>
       <ModalDetailSeller
         openModal={openModal}
@@ -83,6 +95,7 @@ const SellerCard = ({
         handleClickReject={handleClickReject}
         socmed_or_web_url={socmed_or_web_url}
         contact={contact}
+        status={status}
       />
     </Card>
   );

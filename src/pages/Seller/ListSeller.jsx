@@ -1,15 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState, useReducer } from "react";
 import Navbar from "../../components/Navigation/Navbar";
 import FooterComponent from "../../components/Footer/Footer";
 import ProfileAlert from "../../components/Card/ProfileAlert";
 import SellerCard from "../../components/Card/SellerCard";
-import { useState } from "react";
 import { useParams } from "react-router-dom";
 import useGetApi from "../../hooks/useGetApi";
 
 const ListSeller = () => {
   const { idEvent } = useParams();
-
+  const [dataChanged, updateData] = useReducer((x) => x + 1, 0);
   const id = localStorage.getItem("id");
   const [sellerData, setSellerData] = useState([]);
   const { apiResponse, isLoading, error } = useGetApi(
@@ -21,7 +20,7 @@ const ListSeller = () => {
       setSellerData(apiResponse);
       console.log(apiResponse);
     }
-  }, [apiResponse]);
+  }, [dataChanged, apiResponse]);
 
   return (
     <>
@@ -36,11 +35,13 @@ const ListSeller = () => {
             Peserta Acara
           </h1>
           {isLoading && (
-            <p className="font-normal text-gray-700 text-center">Loading...</p>
+            <p className="font-normal text-gray-700 text-center py-5 my-5">
+              Loading...
+            </p>
           )}
           {!isLoading && sellerData.length === 0 ? (
-            <p className="font-normal text-gray-700 text-center">
-              Belum ada orang yang mendaftar pada acara ini.
+            <p className="font-normal text-gray-700 text-center py-5 my-5">
+              Belum ada seller yang anda setujui.
             </p>
           ) : (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -59,6 +60,8 @@ const ListSeller = () => {
                     desc={seller.seller.description}
                     socmed_or_web_url={seller.seller.socmed_or_web_url}
                     contact={seller.seller.contact}
+                    status={seller.status}
+                    updateData={updateData}
                   />
                 ))}
             </div>
@@ -69,11 +72,19 @@ const ListSeller = () => {
             Pendaftar Acara
           </h1>
           {isLoading && (
-            <p className="font-normal text-gray-700 text-center">Loading...</p>
+            <p className="font-normal text-gray-700 text-center py-5 my-5">
+              Loading...
+            </p>
           )}
-          {!isLoading && sellerData.length === 0 ? (
-            <p className="font-normal text-gray-700 text-center">
+          {!isLoading && sellerData.length === 0 && (
+            <p className="font-normal text-gray-700 text-center py-5 my-5">
               Belum ada orang yang mendaftar pada acara ini.
+            </p>
+          )}
+          {!isLoading &&
+          sellerData.filter((seller) => seller.status === null).length === 0 ? (
+            <p className="font-normal text-gray-700 text-center py-5 my-5">
+              Belum ada orang yang mendaftar lagi pada acara ini.
             </p>
           ) : (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -92,6 +103,8 @@ const ListSeller = () => {
                     desc={seller.seller.description}
                     socmed_or_web_url={seller.seller.socmed_or_web_url}
                     contact={seller.seller.contact}
+                    status={seller.status}
+                    updateData={updateData}
                   />
                 ))}
             </div>
