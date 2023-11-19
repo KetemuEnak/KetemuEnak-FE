@@ -52,12 +52,18 @@ const FormSignInEo = () => {
         );
         if (response && response.status === 200) {
           const token = responseData.token;
-          const id = responseData.user.id
+          const id = responseData.user.id;
+          const role = responseData.user.role;
           if (token) {
-            localStorage.setItem('role','eo')
-            localStorage.setItem('token', `${token}`)
-            localStorage.setItem('id', `${id}`)
-            navigate('/event');
+            if(role === 'eo'){
+              localStorage.setItem('role','eo')
+              localStorage.setItem('token', `${token}`)
+              localStorage.setItem('id', `${id}`)
+              navigate('/event');
+            }
+            else{
+              setErrorMessage('Email or password is incorrect. Please try again.');
+            }
           } else {
             console.log('Received non-200 status code:', response ? response.status : 'No response');
           }
