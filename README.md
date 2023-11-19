@@ -44,7 +44,7 @@ $ npm run dev
 
 ## development team
 
-This project was developed by the CPI-FS-SDG-8-C team from GIGIH 3.0
+This project was developed by the **CPI-FS-SDG-8-C** team from GIGIH 3.0
 
 ## Support and Contact
 
