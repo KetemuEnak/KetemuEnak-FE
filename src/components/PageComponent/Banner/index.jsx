@@ -11,20 +11,18 @@ const Banner = () => {
         <div id="overlay"></div>
         <section class="overlay-section">
           <div className="text" style={{ width: 1320 }}>
-            <h1 style={{fontSize:"40px", fontWeight:"650"}}>
-              Temukan Event Bazaar & Festival Kuliner <br /> yang ada di Seluruh
-              Indonesia.
+            <h1 style={{ fontSize: "40px", fontWeight: "650" }}>
+              Temukan Event Bazaar & Festival Kuliner <br /> yang ada di Jabodetabek.
             </h1>
             <h6
               style={{
                 fontSize: 16,
                 fontWeight: "bolders",
                 marginBottom: 20,
-                marginTop:20
+                marginTop: 20,
               }}
             >
-              Selamat datang di Ketemu Enak. <br /> Yuk, Jadi Pahlwan UMKM.
-              Dukung UMKM Kuliner di seluruh Indonesia.
+              Selamat datang di Ketemu Enak. <br /> Yuk, Jadi Pahlwan UMKM. Dukung UMKM Kuliner di Jabodetabek.
             </h6>
             <div id="button-container-banner">
               <button
