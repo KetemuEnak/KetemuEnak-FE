@@ -1,6 +1,6 @@
 # Welcome to Ketemu Enak || Event Information and Culinary Bazaar
 
-![<img src="image.png" alt="Logo" style="width:40px;"/>](image.png)
+<img src="image.png" alt="Logo" width="40"/>
 
 ## About
 
